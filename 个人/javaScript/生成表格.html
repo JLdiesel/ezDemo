@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>title</title>
+    <style>
+        table{
+            width: 600px;
+            cursor: pointer;
+        }
+        table td{
+            text-align: center;
+        }
+        table th{
+            background-color: blueviolet;
+        }
+        table tr {
+      background-color: pink;
+    }
+    </style>
+  </head>
+  <body>
+    <div id="dv">
+      请输入姓名:
+      <input type="text" id="uname" />
+      <br/>请输入邮箱
+      <input type="email" name="" id="email" />
+    </div>
+    <input type="button" value="添加" id="btn" />
+    <table border="1" cellpadding="0" cellspacing="0" id="tb">
+      <thead>
+        <tr>
+          <th>姓名</th>
+          <th>邮箱</th>
+        </tr>
+        <tbody id='tbd'>
+            <tr>
+                <td>金龙</td>
+                <td>1317662314@qq.com</td>
+              </tr>
+        </tbody>
+      </thead>
+    </table>
+    <script>
+        var btn=document.getElementById('btn')
+        btn.onclick=function(){
+            var flag=true
+            var uname=document.getElementById('uname')
+        var email=document.getElementById('email')
+            if(uname.value=='' || email.value==''){
+                alert('请输入内容')
+                return 
+            }else{
+                var trObj=document.createElement('tr')
+                var tbd=document.getElementById('tbd')
+                tbd.appendChild(trObj)
+                var td1=document.createElement('td')
+                td1.innerHTML=uname.value
+                var td2=document.createElement('td')
+                td2.innerHTML=email.value
+                trObj.appendChild(td1)
+                trObj.appendChild(td2)
+            }
+        }
+    </script>
+  </body>
+</html>

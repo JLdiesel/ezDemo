@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <canvas id='canvas' width="500" height="500" style="border: 1px solid purple;"></canvas>
+    <!--默认大小为300 150 -->
+    <script>
+        /**  @type{HTMLCanvasElement} **/
+        var canvas = document.getElementById('canvas')
+        //context对象 ，2D对象,用于绘制图案
+        var ctx = canvas.getContext('2d')
+        ctx.beginPath();
+        ctx.arc(70, 70, 70, 0, 2 * Math.PI)
+        ctx.fillStyle = 'gray'
+        ctx.fill()
+        ctx.strokeStyle = 'red'
+
+        ctx.stroke()
+    </script>
+
+</body>
+
+</html>

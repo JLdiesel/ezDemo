@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <canvas id='canvas' width="500" height="500" style="border: 1px solid purple;"></canvas>
+    <script>
+        /** @type{HTMLCanvasElement} **/
+        var canvas = document.getElementById('canvas')
+        var ctx = canvas.getContext('2d')
+        ctx.beginPath()
+        ctx.moveTo(300, 300);
+        ctx.lineTo(120, 130);
+        //会以上一个坐标作为起始坐标
+        ctx.lineTo(150, 220);
+        ctx.strokeStyle = 'skyblue'
+        ctx.lineWidth = 5;
+        //closepath：自动闭合路径
+        ctx.closePath()
+        //stroke描边，不会自动闭合路径
+        ctx.stroke();
+
+        ctx.beginPath()
+        ctx.moveTo(200, 300);
+        ctx.lineTo(120, 320);
+        //会以上一个坐标作为起始坐标
+        ctx.lineTo(150, 420);
+        //closepath：自动闭合路径
+        ctx.closePath()
+        //填充样式
+        ctx.fillStyle = 'red'
+        ctx.fill()
+        ctx.strokeStyle = '#000'
+        ctx.closePath()
+        //stroke描边，不会自动闭合路径
+        ctx.stroke();
+    </script>
+</body>
+
+</html>

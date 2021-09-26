@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    .div {
+        height: 0;
+        width: 0;
+        border-color: transparent transparent red transparent;
+        border-style: solid;
+        border-width: 0 50px 50px 50px;
+    }
+</style>
+
+<body>
+    <div class="div"></div>
+    <canvas id='canvas' width="500" height="500" style="border: 1px solid purple;"></canvas>
+    <!--默认大小为300 150 -->
+    <script>
+        /**  @type{HTMLCanvasElement} **/
+        var canvas = document.getElementById('canvas')
+        //context对象 ，2D对象,用于绘制图案
+        var ctx = canvas.getContext('2d')
+        //绘制一个填充的矩形  fillRect
+        ctx.beginPath();
+        ctx.fillStyle = '#ff6600'
+        ctx.fillRect(100, 100, 90, 90)
+        //绘制一个描边的矩形 strokeRect
+        ctx.beginPath()
+        ctx.strokeStyle = 'green'
+        ctx.strokeRect(100, 200, 90, 90)
+        //描边+填充的矩形
+        ctx.translate(300, 300) //移动参考点
+        //矩形路径
+        ctx.rect(0, 0, 200, 300)
+        ctx.fill()
+        ctx.stroke()
+        ctx.clearRect(20, 20, 50, 50)
+    </script>
+
+</body>
+
+</html>

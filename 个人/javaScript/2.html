@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <button>显示当前日期</button>
+    <div>time</div>
+    <p></p>
+    <script>
+      let btn = document.querySelector("button");
+      let div = document.querySelector("div");
+      btn.onclick = function () {
+        div.innerText = getDate();
+      };
+      function getDate() {
+        let date = new Date();
+        /* console.log(date.getFullYear()); //返回当前日期的年
+        console.log(date.getMonth() + 1); //月份  返回的月份小一个月
+        console.log(date.getDate()); //返回几号
+        console.log(date.getDay()); //周一返回1 周日返回0 */
+        let year = date.getFullYear();
+        let month = date.getMonth() + 1;
+        let dates = date.getDate();
+        let arr = [
+          "星期日",
+          "星期一",
+          "星期二",
+          "星期三",
+          "星期四",
+          "星期五",
+          "星期六",
+        ];
+        let day = date.getDay();
+        return "今天是:" + year + "年" + month + "月" + dates + "日" + arr[day];
+      }
+      let p = document.querySelector("p");
+      p.innerText = getDate();
+    </script>
+  </body>
+</html>

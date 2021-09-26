@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div class="inner">
+      <button class="create">创建</button>
+      <button class="create2">创建2</button>
+    </div>
+    <script>
+      var inner = document.querySelector(".create2");
+      var create = document.querySelector(".create");
+      create.onclick = function () {
+        var arr = [];
+        for (var i = 0; i <= 100; i++) {
+          arr.push('<a href="">百度</a>');
+        }
+        create.innerHTML = arr.join("");
+      };
+      inner.onclick = function () {
+        for (var i = 0; i <= 100; i++) {
+          var a = document.createElement("a");
+          inner.appendChild(a);
+        }
+      };
+      
+    </script>
+  </body>
+</html>
