@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id='app'>
+    </div>
+    <template id='vue-app'>
+        <div>
+            <h2>计数为{{count}}</h2>
+            <h2>计数*5为{{count2}}</h2>
+
+            <button @click='changefriends'>改变friends</button>
+        </div>
+    </template>
+    <script src="https://unpkg.com/vue@next"></script>
+
+    <script>
+        const app = {
+            template: '#vue-app',
+            data() {
+                return {
+                    count: 1,
+                    friends: ['金龙', '123', 321, {
+                        name: '123'
+                    }]
+                }
+            },
+            computed: {
+                count2() {
+                    return this.count * 5
+                }
+            },
+            methods: {
+                changefriends() {
+                    this.friends[0] = '梁明烈'
+                    this.friends[3].name = '456'
+                    this.friends = {
+                        name: 'jl'
+                    }
+                }
+            },
+            watch: {
+                friends: {
+                    //深拷贝
+                    deep: true,
+                    //立即执行一次
+                    immediate: true,
+                    handler: function (val, oldVal) {
+                        console.log('new', val, 'old', oldVal);
+                    }
+                },
+            },
+            created() {
+                const friendWatch = this.$watch('friends',
+                    (newval, oldval) => {
+                        console.log(newval, oldval);
+                    }, {
+                        deep: true,
+                        immediate: true
+                    })
+                // 当调用friendWatch()时，会取消this.$watch的监听
+                // 
+            },
+        }
+        Vue.createApp(app).mount('#app')
+    </script>
+
+</body>
+
+</html>

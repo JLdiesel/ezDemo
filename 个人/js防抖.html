@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <input id='input'>
+    <button>内部防抖s</button>
+    <div></div>
+    <script>
+        function debounce(fun, delay) {
+            let timer
+            return function (...args) {
+                var _this = this
+                if (timer) {
+                    clearTimeout(timer)
+                }
+                timer = setTimeout(function () {
+                    fun(...args)
+                }, delay);
+            }
+        }
+
+        function debounce2(fn, delay) {
+            var timer; // 维护一个 timer
+            return function () {
+                var _this = this; // 取debounce执行作用域的this
+                var args = arguments;
+                if (timer) {
+                    clearTimeout(timer);
+                }
+                timer = setTimeout(function () {
+                    fn.apply(_this, args); // 用apply指向调用debounce的对象，相当于_this.fn(args);
+                }, delay);
+            };
+        }
+        let num = 1
+        let div = document.querySelector('div')
+
+        function count() {
+            div.innerHTML = num++;
+        }
+        let btn = document.querySelector('button')
+        let timer = null
+        btn.onclick = function () {
+            if (timer) clearTimeout(timer);
+            timer = setTimeout(function () {
+                count()
+                console.log("防抖函数的触发");
+            }, 1000)
+        }
+
+        // btn.onclick = function () {
+        //     console.log("按钮被点击");
+        //     let timer = null
+
+        //     return function () {
+        //         if (timer) clearTimeout(timer);
+        //         console.log(timer + "cli里的");
+        //         timer = setTimeout(function () {
+        //             count()
+        //             console.log("防抖函数的触发");
+        //         }, 1000)
+        //     }
+        // }()
+        // let timer = null
+        // btn.onclick = function a() {
+        //     let bibao = function b() {
+
+        //         return function c() {
+        //             if (timer) clearTimeout(timer);
+        //             timer = setTimeout(function () {
+        //                 count()
+        //                 console.log("防抖函数的触发");
+        //             }, 1000)
+        //         }
+        //     }
+        //     bibao()()
+        // }
+
+
+
+        function test(a) {
+            console.log(a);
+        }
+        inputDebounce = debounce(test, 3000)
+        document.getElementById('input').addEventListener('keyup', (e) => {
+            inputDebounce(e.target.value)
+        })
+    </script>
+</body>
+
+</html>

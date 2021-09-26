@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id='app'>
+    </div>
+    <template id='vue-app'>
+        <!-- 第一次渲染后视为静态资源 -->
+        <h2 v-once>{{count}}</h2>
+        <!-- 相当于{{count}} -->
+        <h2 v-text='count'></h2>
+        <!-- 解析html -->
+        <h2 v-html='info'></h2>
+        <!-- 跳过元素及子元素的编译过程直接显示标签 -->
+        <div v-pre>{{count}} <span>{{count}}</span> </div>
+        ?
+        <button @click='count++'>+1</button>
+    </template>
+    <script src="https://unpkg.com/vue@next"></script>
+
+    <script>
+        const app = {
+            template: '#vue-app',
+            data() {
+                return {
+                    count: 1,
+                    info: `<span>哈哈哈</span>`
+                }
+            },
+            methods: {
+
+            },
+        }
+        Vue.createApp(app).mount('#app')
+    </script>
+
+</body>
+
+</html>

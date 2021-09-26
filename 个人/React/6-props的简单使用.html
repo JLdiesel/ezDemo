@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="test1"></div>
+    <div id="test2"></div>
+    <div id="test3"></div>
+    <script src="./react.development.js"></script>
+    <script src="./react-dom.development.js"></script>
+    <script src="prop-types.js"></script>
+    <script src="/babel.min.js"></script>
+    <script type="text/babel">
+        class Weather extends React.Component{
+        static propTypes={
+            name:PropTypes.string,
+            sex:PropTypes.string,
+            age:PropTypes.number,
+            speak:PropTypes.func
+        }
+        static defaultProps={
+            sex:'男',
+            age:18
+        }
+        
+        render() {
+            const {name,age,sex}=this.props
+            return <ul>
+                <li>姓名：{name}</li>
+                <li>年龄：{age}</li>
+                <li>性别：{sex}</li>
+            </ul>
+        }
+    }
+    ReactDOM.render(<Weather name='jl' speak={speak} />,document.getElementById('test1'))
+    ReactDOM.render(<Weather name='jl2' age={18} sex='男' speak={speak} />,document.getElementById('test2'))
+    const boy={name:'老刘',age:19,sex:'女'}
+    ReactDOM.render(<Weather {...boy} />,document.getElementById('test3'))
+    function speak() {
+        console.log('你好');
+    }
+    </script>
+</body>
+
+</html>

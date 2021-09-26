@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "audiosprite": "^0.7.2",
+    "ffmpeg": "^0.0.4"
+  }
+}

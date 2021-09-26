@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .title {
+            background-color: red;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="test">123</div>
+    <script crossorigin src="./react.development.js"></script>
+    <script crossorigin src="./react-dom.development.js"></script>
+    <script src="./babel.min.js"></script>
+    <script type="text/babel">
+        class Weather extends React.Component{
+            state={isHot:true}
+            changeWeather=()=>{
+                const {isHot} =this.state
+                this.setState({isHot:!isHot})
+            }
+            output=()=>{
+       
+                const {input1}=this
+                console.log(input1.value);
+            }
+            saveInput=(node)=>{
+               this.input1=node
+            }
+            render(){
+                const {isHot} =this.state
+                return (
+                    <div>
+                        <h2>
+                        今天天气很{isHot?'炎热':'凉爽'}
+                            </h2>
+                    {/*<input ref={(node)=>{this.input1=node}} type="text"/>*/}
+                   <input ref={this.saveInput} type="text" /> 
+
+                 
+                        <button onClick={this.output}>输出Input内容</button>
+                    <button onClick={this.changeWeather}>改变天气</button>
+                    </div>
+                )
+            }  
+        }
+       ReactDOM.render(<Weather/>,document.getElementById('test'))
+    </script>
+</body>
+
+</html>

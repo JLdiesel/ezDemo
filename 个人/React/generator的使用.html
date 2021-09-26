@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        // generator:生成器
+
+        // 1普通函数
+        /* function foo(params) {
+        console.log("foo被执行");
+        }
+        foo() */
+
+        //2生成器函数
+        function* foo() {
+            console.log(111);
+            const y1 = yield "hello";
+            console.log(y1);
+            const y2 = yield 'world';
+            console.log(y1, y2);
+            const y3 = yield 'jl'
+            console.log(y1, y2, y3);
+        }
+        //iterator:迭代器
+        const resule = foo()
+        console.log(resule);
+        // 3.使用迭代器
+        //调用一次next，就会消耗一次迭代器
+        //
+        console.log(resule.next());
+        console.log(resule.next());
+        console.log(resule.next());
+        console.log(resule.next());
+
+        function* bar() {
+            console.log(123);
+            const result = yield new Promise((resolve, reject) => {
+                setTimeout(() => {
+                    resolve('hellos')
+                }, 100)
+            })
+            console.log(result);
+        }
+
+        const it = bar()
+        console.log(it.next().value.then(res => {
+            it.next("hello")
+        }));
+        // it.next().value.then(res => {
+        //     it.next(res)
+        // })
+    </script>
+</body>
+
+</html>

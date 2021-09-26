@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        function sleep(duration) {
+            let start = Date.now();
+            //当当前时间小于
+            while (start + duration > Date.now()) {
+
+            } //2000之后结束
+        }
+        const works = [
+            () => {
+                console.log('A1开始');
+                sleep(20);
+                console.log('A1结束');
+            }, () => {
+                console.log('B1开始');
+                sleep(0);
+                console.log('B1结束');
+            }, () => {
+                console.log('C1开始');
+                sleep(20);
+                console.log('C1结束');
+            }, () => {
+                console.log('C2开始');
+                sleep(0);
+                console.log('C2结束');
+            }, () => {
+                console.log('B2开始');
+                sleep(20);
+                console.log('B2结束');
+            }
+        ]
+        requestIdleCallback(workLoop, {
+            timeout: 1000
+        });
+        //工作循环 传给requestIdleCallback会得到一个deadline方法
+        function workLoop(deadline) {
+            console.log('本帧剩余时间', parseInt(deadline.timeRemaining())); //10ms
+            //如果还有剩余时间并且还有没有完成的任务
+            while ((deadline.timeRemaining() > 0 || deadline.didTimeout) && works.length > 0) {
+                preformUnitOfWork();
+            }
+            if (works.length > 0) {
+                console.log(`只剩下${deadline.timeRemaining()},时间片已经到期，等待下次调度`);
+                requestIdleCallback(workLoop)
+            }
+        }
+
+        function preformUnitOfWork() {
+            let work = works.shift(); //取出数组中的第一个工作
+            work();
+        }
+    </script>
+</body>
+
+</html>

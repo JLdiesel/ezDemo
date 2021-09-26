@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="test"></div>
+    <script src="./react.development.js"></script>
+    <script src="./react-dom.development.js"></script>
+    <script src="/babel.min.js"></script>
+    <script type="text/babel">
+        class Featuer extends React.Component {
+            state={opacity:1}
+            deleteVdom = () => {
+                ReactDOM.unmountComponentAtNode(document.getElementById('test'))
+            }
+            componentDidMount() {
+                this.timer=setInterval(()=>{
+                    let op=this.state.opacity
+                    op-=0.1
+                    if(op<=0) op=1
+
+                   this.setState({opacity:op})
+                    
+                },200)
+            }
+            componentWillUnmount(){
+                clearInterval(this.timer)
+            }
+            render() {
+
+                return (
+                    <div>
+                        <h2 style={{opacity:this.state.opacity}}>react学不好怎么办</h2>
+                        <button onClick={this.deleteVdom}>不学了</button>
+                    </div>
+                )
+            }
+
+
+        }
+
+        ReactDOM.render(<Featuer />,document.getElementById('test'))
+    </script>
+</body>
+
+</html>
