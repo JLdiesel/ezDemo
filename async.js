@@ -148,37 +148,37 @@ new Promise((resolve) => {
 console.log("script end"); */
 
 function f1() {
-  return new Promise((res,rej)=>{
+  return new Promise((res, rej) => {
     setTimeout(() => {
-      res(1)
+      res(1);
     }, 1000);
-  })
+  });
 }
 function f2() {
-  return new Promise((res,rej)=>{
+  return new Promise((res, rej) => {
     setTimeout(() => {
-      res(2)
+      res(2);
     }, 1000);
-  })
+  });
 }
 function f3() {
-  return new Promise((res,rej)=>{
+  return new Promise((res, rej) => {
     setTimeout(() => {
-      res(3)
+      res(3);
     }, 1000);
-  })
+  });
 }
 async function a() {
-  console.log(new Date())
-  const a1=f1()
-  const a2=f2()
-  const a3=f3()
-  console.log(await a1) 
-  console.log('输出1')
-  console.log(await a2)
-  console.log('输出2')
-  console.log(await a3)
-  console.log('输出3')
-  console.log(new Date())
+  console.log(new Date());
+  const a1 = f1();
+  const a2 = f2();
+  const a3 = f3();
+  console.log(await a1);
+  console.log('输出1');
+  console.log(await a2);
+  console.log('输出2');
+  console.log(await a3);
+  console.log('输出3');
+  console.log(new Date());
 }
-a()
+a();
