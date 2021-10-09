@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    input:disabled {
+      /* 禁用的input*/
+      border: solid 1px pink;
+    }
+
+    input:optional {
+      /* 所有非必填 */
+      border: solid 1px blue;
+    }
+
+    input:enabled {
+      /* 有效的input */
+    }
+
+    input:checked+label {
+      /* 选中后的第一个label */
+      color: green;
+    }
+
+
+
+    input:required {
+      /* 所有必填 */
+      color: red;
+      border: 1px solid red;
+    }
+
+    input:valid {
+      /* 验证有效的时候 */
+      background-color: yellow;
+    }
+
+    input:invalid {
+      /* 验证无效的时候 */
+      background-color: yellow;
+    }
+  </style>
+</head>
+
+<body>
+  <form action="">
+    <input type="text" disabled>
+    <input type="text">
+    <input type="radio" name='sex' id='boy'>
+    <label for="boy">男</label>
+    <input type="radio" name='sex' checked id='girl'>
+    <label for="girl">女</label>
+    <input type="text" required>
+    <input type="email">
+    <button>保存</button>
+  </form>
+</body>
+
+</html>

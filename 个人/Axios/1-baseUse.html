@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div>
+        <h2>基本使用</h2>
+        <button class="btn btn-get">发送get请求</button>
+        <button class="btn btn-post">发送post请求</button>
+        <button class="btn btn-put">发送put请求</button>
+        <button class="btn btn-delete">发送delete请求</button>
+    </div>
+    <script src="https://cdn.bootcdn.net/ajax/libs/axios/0.21.1/axios.min.js"></script>
+    <script>
+        const btns = document.querySelectorAll('button')
+        //获取数据
+        btns[0].onclick = function () {
+            axios({
+                method: 'GET',
+                url: 'http://localhost:3000/users',
+                data: {
+                    name: 'jls',
+                    password: '123'
+                }
+            }, ).then((result) => {
+                console.log(result);
+            })
+        }
+        //添加数据
+        btns[1].onclick = function () {
+            axios({
+                method: 'POST',
+                url: 'http://localhost:3000/posts',
+                data: {
+                    title: '我是大帅比',
+                    author: '金龙'
+                }
+            }).then(reslove => {
+                console.log(reslove);
+            })
+        }
+        //更新数据
+        btns[2].onclick = function () {
+            axios({
+                method: 'PUT',
+                url: 'http://localhost:3000/posts/3',
+                data: {
+                    title: '金龙是大帅比',
+                    author: '张三'
+                }
+            }).then(res => {
+                console.log(res);
+            })
+        }
+        //删除数据
+        btns[3].onclick = function () {
+            axios({
+                method: 'delete',
+                url: 'http://localhost:3000/posts/1',
+            }).then(res => {
+                console.log(res);
+            })
+        }
+    </script>
+
+</body>
+
+</html>

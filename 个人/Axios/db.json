@@ -1,0 +1,44 @@
+{
+  "posts": [
+    {
+      "title": "我是大帅比",
+      "author": "金龙",
+      "id": 2
+    },
+    {
+      "title": "我是大帅比",
+      "author": "金龙",
+      "id": 3
+    },
+    {
+      "title": "我是大帅比",
+      "author": "金龙",
+      "id": 4
+    },
+    {
+      "title": "我是大帅比",
+      "author": "金龙",
+      "id": 5
+    },
+    {
+      "username": "jl",
+      "age": "18",
+      "id": 6
+    },
+    {
+      "username": "jl",
+      "age": "18",
+      "id": 7
+    }
+  ],
+  "comments": [
+    {
+      "body": "帅逼",
+      "postId": 2,
+      "id": 2
+    }
+  ],
+  "profile": {
+    "name": "typicode"
+  }
+}

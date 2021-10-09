@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    :root {
+      /* 选择根元素 */
+      color: red;
+    }
+
+    ul li:empty {
+      /* 选择内容为空的元素 添加样式 */
+      display: none;
+    }
+
+    article:first-child {
+      /* 选择article的第一个孩子 */
+    }
+
+    article:last-child {
+      /* 选择article的最后一个孩子 */
+    }
+
+    article h1:first-child {
+      /* 选择第一个元素 如果为h1则生效 */
+      color: blue;
+    }
+
+    article>h2:first-of-type {
+      /* 选择article儿子的第一个h2 */
+      color: blue;
+    }
+
+    article h3:only-of-type {
+      /* 选择article之后 父元素内只有一个h3的h3 */
+      color: yellow;
+    }
+
+    article h2:first-of-type {
+      /* 选择article之后的第一个大儿子h2 */
+      color: blue;
+    }
+
+    article h2:last-of-type {
+      /* 选择article之后的第一个末儿子h2 */
+      color: blue;
+    }
+
+    article:nth-child(n) {
+      /* 选择article的n个孩子 odd/2n选择偶数孩子 even/2n-1选择奇数孩子  */
+    }
+
+    article:nth-last-child(-n+2) {
+      /* 选择article的n个孩子 odd/2n选择偶数孩子 even/2n-1选择奇数孩子 */
+    }
+
+    article>h1:nth-last-of-type(1) {
+      /* 选择article下的最后一个h1 */
+    }
+
+    article>h1:nth-of-type(1) {
+      /* 选择article下的第一个h1 */
+    }
+  </style>
+</head>
+
+<body>
+  <main>
+    <article>
+      <h1>111</h1>
+      <h1>222</h1>
+      <ul>
+        <li>333</li>
+        <li></li>
+      </ul>
+      <aside>
+        <h2>444</h2>
+      </aside>
+      <div>
+        <h2>888</h2>
+        <h3>999</h3>
+      </div>
+      <h2>555</h2>
+      <h3>777</h3>
+      <h2>666</h2>
+    </article>
+  </main>
+</body>
+
+</html>

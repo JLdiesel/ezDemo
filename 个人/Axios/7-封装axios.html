@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        //构造函数
+        function Axios(config) {
+            //初始化
+            this.defaults=config;
+            this.intercepters={
+                request:{},
+                response:{}
+            }
+            
+        }
+        //原型添加方法
+        Axios.prototype.request=function(config){
+            console.log('发送AJAX请求的类型为'+config.method);
+        }
+         Axios.prototype.get=function(config){
+            return this.request({method:'GET'})
+        }
+         Axios.prototype.post=function(config){
+            return this.request({method:'POST'})
+
+        }
+        //声明函数
+        function createInstance(config){
+            //实例化对象
+            let context=new Axios(config)
+            console.log(context);
+            //创建请求函数  instance变为一个函数
+            let instance=Axios.prototype.request.bind(context);
+            console.dir(instance);
+            //此时instance不能.get.post
+            //将Axios.prototype对象中的方法添加到instance中
+            Object.keys(Axios.prototype).forEach(key=>{
+                instance[key]=Axios.prototype[key].bind(context)
+            })
+            //为instance函数对象添加属性default与interceptors
+            Object.keys(context).forEach(key=>{
+                instance[key]=context[key]
+            })
+            return instance
+        }
+        let axios=createInstance()
+        //发送请求
+        axios({method:'POST'});
+        axios.get();
+        axios.post();
+    </script>
+</body>
+</html>

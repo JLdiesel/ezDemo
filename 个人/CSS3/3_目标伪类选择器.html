@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    div {
+      height: 900px;
+      border: solid 1px #ddd;
+    }
+
+    div:target {
+      /* 通过a标签 跳到目标后 目标会产生样式 */
+      color: red;
+    }
+  </style>
+</head>
+
+<body>
+  <a href="#abc">我跳</a>
+  <div></div>
+  <div id="jl">
+    跳到我这
+  </div>
+  <div id="abc">
+    跳到我这
+  </div>
+</body>
+
+</html>

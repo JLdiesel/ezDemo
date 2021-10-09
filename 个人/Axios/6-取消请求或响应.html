@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div>
+        <button>发送</button>
+        <button>取消</button>
+    </div>
+    <script src="https://cdn.bootcdn.net/ajax/libs/axios/0.21.1/axios.min.js"></script>
+
+    <script>
+        const btn = document.querySelectorAll('button')
+        const CancelToken = axios.CancelToken;
+        let cancel = null;
+        btn[0].onclick = () => {
+            //检测上一次请求是否完成
+            if (cancel !== null) {
+                cancel();
+            }
+
+            //发送一个请求
+            axios.get('http://localhost:3000/posts', {
+                //配置对象的属性
+                cancelToken: new CancelToken(function (c) {
+                    // An executor function receives a cancel function as a parameter
+                    cancel = c;
+
+                })
+            }).then(res => {
+                console.log(res);
+                cancel = null
+            })
+        };
+
+
+        // cancel the request
+        btn[1].onclick = () => {
+            cancel();
+        }
+    </script>
+</body>
+
+</html>

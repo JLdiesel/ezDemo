@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    main>ul li:nth-child(-n+3):not(:nth-child(2)) {
+      /* 排除选择器 排除第二个 */
+      color: red;
+    }
+  </style>
+</head>
+
+<body>
+  <main>
+    <ul>
+      <li>111</li>
+      <li>222</li>
+      <li>333</li>
+      <li>444</li>
+    </ul>
+    <article>
+      <h1>555</h1>
+      <aside>
+        666
+      </aside>
+    </article>
+  </main>
+</body>
+
+</html>

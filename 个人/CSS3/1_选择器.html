@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    article>header {
+      width: 20px;
+      height: 20px;
+      background-color: red;
+    }
+
+    /*   article>header~div {
+      width: 20px;
+      height: 20px;
+      background-color: pink;
+    } */
+    article>header+div {
+      width: 20px;
+      height: 20px;
+      background-color: pink;
+    }
+
+    #name {
+      width: 20px;
+      height: 20px;
+      background-color: yellow;
+    }
+
+    .jl {
+      width: 20px;
+      height: 20px;
+      background-color: yellowgreen;
+    }
+
+    div[title^='abc'][id] {
+      /* ^以abc开始   $以abc结束 *含有abc 
+      ~只有独立的abc可以被选中 |以abc开始以及-连接 */
+      width: 20px;
+      height: 20px;
+      background-color: skyblue;
+    }
+  </style>
+</head>
+
+<body>
+  <div>
+    <article>
+      <header>123</header>
+      <div>123</div>
+      <div>456</div>
+    </article>
+  </div>
+  <div id="name" class="jl" title="abc.com">
+    <div title="abc.com">666</div>
+    <header style="height: 20px; width: 20px;background-color: blue;">123</header>
+  </div>
+  <div class="jl" title="abc.com">555</div>
+  <div title="abc.com">444</div>
+</body>
+
+</html>
