@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+    <div id='app'>
+        <cpn></cpn>
+        <cpn>
+            <template v-slot:left>
+                123
+            </template>
+            <template v-slot:language='slot'>
+                <!-- <span>{{slot.data.join('-----')}} </span> -->
+                <span>{{slot.data.toString()}}</span>
+            </template>
+        </cpn>
+    </div>
+
+    <template id='cpn'>
+        <div>
+            <h2>子组件</h2>
+            <slot name='left'> 1333</slot>
+            <slot name='language' :data='blanguage'>
+                <ul>
+                    <li v-for='item in blanguage'> {{item}}</li>
+                </ul>
+            </slot>
+        </div>
+    </template>
+    <script src="./vue.js"></script>
+    <script>
+        const app = new Vue({
+            el: '#app',
+            data: {},
+            components: {
+                cpn: {
+                    template: '#cpn',
+                    methods: {
+                        btnClick() {
+                            console.log(this.$parent);
+                        }
+                    },
+                    data() {
+                        return {
+                            blanguage: ['js', 'c', 'c++', 'c#', 'go', 'java']
+                        }
+                    },
+                }
+            },
+            watch: {},
+            mounted() {},
+            methods: {}
+        })
+    </script>
+
+
+</body>
+
+</html>

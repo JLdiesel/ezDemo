@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .changered {
+            color: red;
+        }
+    </style>
+</head>
+
+<body>
+    <script src="./vue.js"></script>
+    <div id='app'>
+        <ul>
+            <li v-for='(item,index) in name' :class='index===duizhao? "changered" : null' @click='change(index)'>
+                {{index}}{{item}}</li>
+        </ul>
+        <ul>
+            <li v-for='(item,index) in name' :class="{changered: duizhao === index }" @click='change(index)'>
+                {{index}}{{item}}</li>
+        </ul>
+    </div>
+    <script>
+        const app = new Vue({
+            el: '#app',
+            data: {
+                name: ['海王', '海贼王', '海尔兄弟'],
+                duizhao: 0
+            },
+            methods: {
+                change(index) {
+                    this.duizhao = index
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>

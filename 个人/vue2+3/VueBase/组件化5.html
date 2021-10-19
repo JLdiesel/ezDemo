@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id='app'>
+        <cpn :elec='elec' @itemclick='cpnClick'></cpn>
+    </div>
+    <template id='cpn'>
+        <div>
+            <button v-for='item of elec' @click='btnClick(item)'>{{item.name}}</button>
+        </div>
+    </template>
+    <script src="./vue.js"></script>
+    <script>
+        const cpn = {
+            template: '#cpn',
+            props: {
+                elec: Array,
+                number2: Number
+            },
+            methods: {
+                btnClick(item) {
+                    //发射事件
+                    this.$emit('itemclick', item)
+                }
+            },
+        }
+        const app = new Vue({
+            el: '#app',
+            data() {
+                return {
+                    elec: [{
+                            id: 1,
+                            name: '热门电视'
+                        },
+                        {
+                            id: 2,
+                            name: '热门手机'
+                        },
+                        {
+                            id: 3,
+                            name: '热门电脑'
+                        },
+                        {
+                            id: 4,
+                            name: '热门屏幕'
+                        },
+                    ]
+                }
+            },
+            components: {
+                cpn
+            },
+            watch: {},
+            mounted() {},
+            methods: {
+                cpnClick(item) {
+                    this.elec[1].name = '卧槽';
+                    console.log(item);
+                }
+            }
+        })
+    </script>
+
+</body>
+
+</html>

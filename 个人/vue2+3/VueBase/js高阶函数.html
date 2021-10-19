@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        const num = [23, 55, 2, 1, 44, 677]
+        //filter  : 筛选数组  
+        let newNums = num.filter(n => n > 10);
+        console.log(newNums);
+        // map : 对数组中的值进行操作返回操作后的数组
+        let secondNums = newNums.map(n => n * 2)
+        console.log(secondNums);
+        //reduce 对数组求和 x为sum 返回和
+        let thirdNums = secondNums.reduce((x, y) => x + y)
+        console.log(thirdNums);
+        
+        let sum = num.filter(n => n == 1000);
+        console.log(typeof sum);
+        nums.filter(n => n == num2)[0]
+
+
+
+        // var twoSum = (nums, target) => {
+        //     for (let i = 0; i < nums.length;) {
+        //         const num2 = target - nums[i];
+        //         delete nums[i]
+        //         if ((nums.filter(n => n ==
+        //                 num2)).length != 0 && nums[i] != num2)
+        //             return [i, nums.findIndex(n => n == num2)]
+        //         else i++
+        //     }
+
+        // };
+        // console.log(twoSum([3, 3], 6));
+    </script>
+</body>
+
+</html>

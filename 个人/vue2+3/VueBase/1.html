@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+</head>
+
+<body>
+    <script src="./vue.js"></script>
+    <div id="app">
+        <span v-show='isuser'>
+            <label for="username">用户名</label>
+            <input type="text" id="username" placeholder="用户名" key='123'>
+        </span>
+        <span v-show='!isuser'>
+            <label for="email">用户邮箱</label>
+            <input type="text" id="email" placeholder="用户邮箱" key="23">
+        </span>
+        <button @click='change'>切换登录类型</button>
+
+
+    </div>
+    <script>
+        const app = new Vue({
+            el: '#app',
+            data: {
+                isuser: true
+            },
+            methods: {
+                change() {
+                    this.isuser = !this.isuser
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>
