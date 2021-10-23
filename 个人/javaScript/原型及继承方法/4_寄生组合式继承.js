@@ -10,9 +10,7 @@ function createObj(obj) {
  */
 function inheritPrototype(SubType,SuperType) {
   //把A置于B的原型链上并返回
-  
   // SubType.prototype = Object.create(SuperType.prototype)
-
   // Polyfill
   SubType.prototype =createObj(SuperType.prototype)
   //添加constructor方法指向SubType
