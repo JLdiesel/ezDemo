@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        let a = {
+            name: '我的名字是'
+        }
+        b = function (c, d) {
+            console.log(this.name + c + d);
+        }
+        b.apply(a, ['金', '龙'])
+        b.call(a, '金', '龙')
+        let c = b.bind(a)
+        c('金', '龙')
+
+        //常用场景
+        // apply 数组之间的追加
+        var arr1=[1,{name:'arr1'}]
+        var arr2=['jl',55]
+        Array.prototype.push.apply(arr1,arr2)
+        console.log(arr1);
+        //获取最大最小值
+        var numbers=[5,6,23,61,-1]
+        var maxNum=Math.max.apply(null,numbers)
+        var minNum=Math.min.apply(null,numbers)
+
+    </script>
+</body>
+
+</html>
