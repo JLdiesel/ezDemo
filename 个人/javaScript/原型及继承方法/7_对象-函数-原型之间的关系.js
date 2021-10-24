@@ -35,8 +35,9 @@ console.log(Function.prototype.__proto__===Object.prototype);//true
 
 //总结：1.所有函数的__proto__指向Function的原型对象{constructor:Function}
 //2.所有函数的prototype.__proto__(原型对象的隐式原型)指向Object.prototype
-//3.所有对象(Object.prototype除外)的__proto__(隐式原型)指向Object.prototype
+//3.所有对象(Object.prototype和实例对象除外)的__proto__(隐式原型)指向Object.prototype
 //4.Object.prototype的__proto__指向Null
+//5.实例对象的__proto__属性，指向其构造函数的prototype
 function Foo() {
   
 }
