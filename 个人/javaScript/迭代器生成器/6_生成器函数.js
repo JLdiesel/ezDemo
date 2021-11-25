@@ -17,3 +17,5 @@ console.log(gen.next()); //执行第一个yield之前的代码
 console.log(gen.next()); //2
 console.log(gen.next()); //3
 console.log(gen.next()); //执行4次，3个yield 所以结束执行
+
+export {};

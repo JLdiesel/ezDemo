@@ -7,22 +7,28 @@ class Classroom {
   entry(newStudent) {
     this.students.push(newStudent);
   }
-  [Symbol.iterator]() {
-    let index = 0;
-    return {
-      next: () => {
-        if (index < this.students.length) {
-          return { done: false, value: this.students[index++] };
-        } else {
-          return { done: true, value: undefined };
-        }
-      },
-      return: () => {
-        console.log('迭代器提前终止');
-        return { done: true, value: undefined };
-      },
-    };
+  //   [Symbol.iterator]() {
+  //     let index = 0;
+  //     return {
+  //       next: () => {
+  //         if (index < this.students.length) {
+  //           return { done: false, value: this.students[index++] };
+  //         } else {
+  //           return { done: true, value: undefined };
+  //         }
+  //       },
+  //       return: () => {
+  //         console.log('迭代器提前终止');
+  //         return { done: true, value: undefined };
+  //       },
+  //     };
+  //   }
+  *[Symbol.iterator]() {
+    yield* this.students;
   }
+  //   [Symbol.iterator] = function* () {
+  //     yield* this.students;
+  //   };
 }
 const classroom = new Classroom('树人', '清乐', ['jl', 'lml', 'crc', 'hjl']);
 
