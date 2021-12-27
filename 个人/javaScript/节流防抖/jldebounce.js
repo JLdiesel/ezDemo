@@ -1,7 +1,14 @@
+/**
+ *
+ * @param {*} fun 执行函数
+ * @param {*} delay 延迟时间
+ * @param {*} immediate 立即执行
+ * @returns
+ */
 function debounce(fun, delay, immediate = false) {
   let timer;
   let isInvoke = false;
-  function debounce(...args) {
+  function _debounce(...args) {
     if (timer) {
       clearTimeout(timer);
     }
@@ -11,9 +18,19 @@ function debounce(fun, delay, immediate = false) {
     } else {
       timer = setTimeout(() => {
         fun.apply(this, ...args);
-        isInvoke = false;
+        init();
       }, delay);
     }
   }
-  return debounce;
+  _debounce.cancel = function () {
+    if (timer) {
+      clearTimeout(timer);
+    }
+    init();
+  };
+  function init() {
+    timer = null;
+    isInvoke = false;
+  }
+  return _debounce;
 }
