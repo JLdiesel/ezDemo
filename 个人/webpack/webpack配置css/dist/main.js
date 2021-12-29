@@ -1,1 +1,0 @@
-(()=>{var o={64:o=>{o.exports={dateFormate:()=>{console.log("2000-3-22")}}}},r={};function t(e){var s=r[e];if(void 0!==s)return s.exports;var a=r[e]={exports:{}};return o[e](a,a.exports,t),a.exports}(()=>{"use strict";const{dateFormate:o}=t(64);console.log(3),o()})()})();

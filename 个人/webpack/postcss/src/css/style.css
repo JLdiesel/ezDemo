@@ -1,0 +1,8 @@
+.box {
+  color: pink;
+  user-select: none;
+  transition: all;
+}
+/* 选择全屏所有的元素，浏览器适配时需要添加前缀 */
+:fullscreen {
+}
