@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      h2 {
+        white-space: pre-line;
+        /* 文本缩进 */
+        text-indent: 2em;
+        text-align: center;
+        /* 轮廓线 ： */
+        outline: 50px solid #ddd;
+      }
+      div {
+        white-space: nowrap;
+        overflow: hidden;
+        background-color: #ddd;
+        text-overflow: ellipsis;
+        /* 基线对齐 */
+        /* vertical-align: middle top bottom; */
+        /* 每个字符之间的间隔 */
+        letter-spacing: 10px;
+        /* 每个单词的间距 */
+        word-spacing: 30px;
+        /* 排列方式  */
+        writing-mode: vertical-lr;
+        /* 自动撑满宽度 */
+        /* width: -webkit-fill-available; */
+        width: fit-content;
+        /* 父元素根据子元素的宽度而撑开自适应 */
+        width: max-content;
+      }
+      input:focus {
+        outline: none;
+      }
+    </style>
+  </head>
+  <body>
+    <article>
+      <h2>alkj dl ka jsl k qweqwewq wqeqw</h2>
+      <div>
+        接巧克力我今儿来块钱我就立刻接巧克力我今儿来块钱我就立刻接巧克力我今儿来块钱我就立刻
+      </div>
+    </article>
+  </body>
+</html>

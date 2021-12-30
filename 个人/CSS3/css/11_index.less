@@ -1,0 +1,25 @@
+.table{
+    display: table;
+    section{
+        &:nth-of-type(1){
+            display: table-header-group;
+            background-color: #555;
+            color: white;
+        }
+        &:nth-of-type(2){
+            display: table-row-group;
+        }
+        &:nth-of-type(3){
+            display: table-footer-group;
+            background-color: #f3f3f3;
+        }
+        ul{
+            display: table-row;
+            li{
+                display: table-cell;
+                border: 1px solid #ddd;
+                padding: 10px;
+            }
+        }
+    }
+}

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      p::first-letter {
+        /* 第一个字符 */
+        color: red;
+      }
+      P::first-line {
+        /* 第一行 */
+        color: rosybrown;
+      }
+      span::before {
+        content: '\2193';
+        color: red;
+        font-size: 20px;
+      }
+      span::after {
+        content: '\2193';
+        color: peru;
+        font-size: 14px;
+      }
+      div {
+        border: 1px solid #ddd;
+        width: 200px;
+      }
+      div > input[type='text'] {
+        border: none;
+        outline: none;
+      }
+      div > input[type='text'] + span::after {
+        /* content: '\293D'; */
+        content: 'asgdsag';
+        cursor: pointer;
+        /* 全部大写 */
+        font-variant: small-caps;
+        /* 首字母大写 */
+        text-transform: capitalize;
+        text-decoration: underline;
+        /*  右偏移 下偏移 模糊量 */
+        text-shadow: red 5px 5px 1px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <!-- <div>
+      <p>问问吾问无为谓无无无无无无无无无无无无无无无无</p>
+      <span>金龙</span>
+    </div> -->
+    <div>
+      <input type="text" />
+      <span></span>
+    </div>
+  </body>
+</html>
