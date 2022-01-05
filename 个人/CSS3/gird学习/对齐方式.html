@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      .container {
+        display: grid;
+        width: 400px;
+        border: 1px solid #000;
+        height: 100px;
+        grid-template-columns: repeat(4, 100px);
+        gap: 10px;
+        /* 整体控制 */
+        /* 
+        整体对齐方式
+        justify-content: space-around;
+        align-content: center;
+        元素对齐方式
+        justify-items: center;
+        align-items: center; */
+        /* 垂直  水平 */
+        place-content: space-between space-between;
+        /* 垂直 水平 */
+        place-items: start end;
+      }
+      header,
+      div,
+      nav,
+      main,
+      footer {
+        width: 60px;
+        height: 60px;
+        background-color: blueviolet;
+      }
+      div:first-child {
+        /* justify-self: start;
+        align-self: end; */
+        /* 垂直 水平 */
+        place-self: end start;
+      }
+    </style>
+  </head>
+
+  <body>
+    <article class="container">
+      <div>1</div>
+      <div>2</div>
+      <div>3</div>
+      <div>4</div>
+    </article>
+  </body>
+</html>
