@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      body {
+        width: 100vw;
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      article {
+        display: flex;
+        width: 400px;
+        height: 400px;
+        border: 1px solid gray;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+      }
+      .field {
+        overflow: hidden;
+        position: relative;
+        margin: 5px;
+      }
+      input {
+        padding: 5px;
+        outline: none;
+      }
+      .field::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        height: 2px;
+        bottom: 0;
+        width: 100%;
+
+        background: linear-gradient(to right, white, blue, purple, white);
+        transform: translateX(-100%);
+
+        transition: 1s linear;
+      }
+      .field:hover::before {
+        transform: translateX(100%);
+      }
+    </style>
+  </head>
+  <body>
+    <article>
+      <div class="field">
+        <input type="text" placeholder="请输入账号" />
+      </div>
+      <div class="field">
+        <input type="text" placeholder="请输入密码" />
+      </div>
+    </article>
+  </body>
+</html>
