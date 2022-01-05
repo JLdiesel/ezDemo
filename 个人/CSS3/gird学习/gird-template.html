@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      .main {
+        display: grid;
+        width: 600px;
+        height: 600px;
+        border: 10px solid pink;
+        /*自动填充 
+        grid-template-columns: repeat(auto-fill, 100px);
+        grid-template-rows: repeat(auto-fill, 100px); */
+        /* grid-template-columns: repeat(4, 100px); 
+        grid-template-rows: 100px 100px 100px 100px; */
+
+        /*自适应比例  类似flex:1
+         grid-template-columns: repeat(4, 1fr);
+        grid-template-rows: repeat(4, 1fr); */
+
+        /* 最小宽度 最大宽度  minmanx 
+        grid-template-columns: repeat(4, minmax(50px, 100px));
+        grid-template-rows: repeat(4, 1fr); */
+        grid-template-columns: repeat(4, minmax(50px, 100px));
+        grid-template-rows: repeat(4, 1fr);
+        /* 每一行之间的间距 
+        row-gap: 10px;*/
+        /* 每一列之间的间距 
+        column-gap: 10px;*/
+        /* 行和 列之间的间距 */
+        gap: 5px 10px;
+      }
+
+      .item {
+        font-size: 50px;
+        color: #fff;
+      }
+
+      .item-1 {
+        background-color: purple;
+      }
+
+      .item-2 {
+        background-color: pink;
+      }
+
+      .item-3 {
+        background-color: red;
+      }
+
+      .item-4 {
+        background-color: blue;
+      }
+
+      .item-5 {
+        background-color: skyblue;
+      }
+
+      .item-6 {
+        background-color: black;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="main">
+      <div class="item item-1">1</div>
+      <div class="item item-2">2</div>
+      <div class="item item-3">3</div>
+      <div class="item item-4">4</div>
+      <div class="item item-5">5</div>
+      <div class="item item-6">6</div>
+      <div class="item item-4">4</div>
+      <div class="item item-5">5</div>
+      <div class="item item-6">6</div>
+      <div class="item item-1">1</div>
+      <div class="item item-2">2</div>
+      <div class="item item-3">3</div>
+      <div class="item item-4">4</div>
+      <div class="item item-5">5</div>
+      <div class="item item-6">6</div>
+      <div class="item item-4">4</div>
+      <div class="item item-5">5</div>
+      <div class="item item-6">6</div>
+    </div>
+  </body>
+</html>

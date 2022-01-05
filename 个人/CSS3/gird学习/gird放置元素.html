@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      .main {
+        display: grid;
+        width: 600px;
+        height: 600px;
+        border: 10px solid pink;
+        grid-template-columns: repeat(4, minmax(50px, 100px));
+        grid-template-rows: repeat(4, 1fr);
+        gap: 5px 10px;
+      }
+
+      .item {
+        font-size: 50px;
+        color: #fff;
+      }
+
+      .item-1 {
+        grid-row-start: 1;
+        grid-column-start: 1;
+        grid-column-end: 4;
+        grid-row-end: 4;
+        background-color: purple;
+      }
+
+      .item-6 {
+        background-color: black;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="main">
+      <div class="item item-1">1</div>
+
+      <div class="item item-6">6</div>
+    </div>
+  </body>
+</html>

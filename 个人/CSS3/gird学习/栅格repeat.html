@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      .main {
+        display: grid;
+        width: 300px;
+        height: 300px;
+        border: 10px solid pink;
+        grid-template-columns: repeat(3, [c-start] 1fr [c-end]);
+        grid-template-rows: repeat(3, [r-start] 1fr [r-end]);
+      }
+
+      .item {
+        font-size: 50px;
+        color: #fff;
+      }
+
+      .item-1 {
+        grid-row-start: r-start 1;
+        grid-row-end: r-end 1;
+        grid-column-start: c-start 1;
+        grid-column-end: c-end 1;
+        background-color: purple;
+      }
+
+      .item-6 {
+        background-color: black;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="main">
+      <div class="item item-1">1</div>
+    </div>
+  </body>
+</html>

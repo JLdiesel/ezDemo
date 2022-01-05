@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      .main {
+        display: grid;
+        width: 300px;
+        height: 300px;
+        border: 10px solid pink;
+        grid-template-columns: [c1-start] 100px [c1-end c2-start] 100px [c2-end c3-start] 100px [c3-end];
+        grid-template-rows: [r1-start] 100px [r1-end r2-start] 100px [r2-end r3-start] 100px [r3-end];
+      }
+
+      .item {
+        font-size: 50px;
+        color: #fff;
+      }
+
+      .item-1 {
+        grid-row-start: r2-start;
+        grid-row-end: r2-end;
+        grid-column-start: c2-start;
+        grid-column-end: c2-end;
+        background-color: purple;
+      }
+
+      .item-6 {
+        background-color: black;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="main">
+      <div class="item item-1">1</div>
+    </div>
+  </body>
+</html>
