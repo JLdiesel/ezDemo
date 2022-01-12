@@ -19,6 +19,7 @@ export default {
     watch(inner, (newval, oldval) => {
       console.log(newval, oldval);
     });
+    x;
     return () => (
       <div>
         <button onClick={props.increment()}>+1</button>
