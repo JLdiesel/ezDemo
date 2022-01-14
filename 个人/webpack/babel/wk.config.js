@@ -15,35 +15,23 @@ module.exports = {
   module: {
     rules: [
       {
-        //正则匹配
-        test: /\.css$/,
-        use: [
-          'style-loader',
-          'css-loader',
-          {
-            loader: 'postcss-loader',
-            options: {
-              postcssOptions: {
-                plugins: [
-                  //依赖多个插件
-                  require('autoprefixer'),
-                ],
-              },
-            },
-          },
-        ],
-      },
-      {
-        test: /\.less$/,
-        use: ['style-loader', 'css-loader', 'postcss-loader', 'less-loader'],
-      },
-      {
         test: /\.js$/,
         use: [
           {
             loader: 'babel-loader',
             options: {
-              presets: ['@babel/preset-env'],
+              presets: [
+                [
+                  '@babel/preset-env',
+                  {
+                    //适配目标 优先级更高
+                    targets: ['chrome 88'],
+                    //支持esmodule
+                    esmodules: true,
+                  },
+                ],
+              ],
+              // plugins:['@babel/plugin-transform-arrow-functions',...]
             },
           },
         ],
@@ -51,9 +39,7 @@ module.exports = {
     ],
   },
   plugins: [
-    //build的时候清空文件夹
     new CleanWebpackPlugin(),
-    //build的时候自动创建index.html并引入依赖
     new HtmlWebpackPlugin({
       title: 'jl webpack',
     }),
