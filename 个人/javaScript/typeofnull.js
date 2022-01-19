@@ -4,7 +4,12 @@
 在 JavaScript 中二进制前三位都为 0 的话会被判断为 object 类型，
 null 的二进制表示是全 0，自然前三位也是 0，
 所以执行 typeof 时会返回“object”。
+特殊值 null 被认为是一个对空对象的引用。
 */
 
 console.log(Object.prototype.toString.call('123'));
 console.log(typeof null === 'object');
+
+const obj = { a: 1 };
+
+console.log(obj.valueOf());
