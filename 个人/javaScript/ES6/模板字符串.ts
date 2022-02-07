@@ -39,3 +39,4 @@ function printRaw(strings: TemplateStringsArray, ...expressions: string[]) {
   }
 }
 printRaw`\u00A9${'and'}\n`;
+export {};
