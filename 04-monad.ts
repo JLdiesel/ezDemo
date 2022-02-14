@@ -41,6 +41,7 @@ class Animated<T> {
   getValue(): T {
     return this.mapF(this.value);
   }
+
   updateValue(a: number) {
     this.value = a;
     return this;
