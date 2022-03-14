@@ -40,6 +40,7 @@ a.JLbind = function (thisArg: any, ...argArray: any[]) {
   return fn;
 };
 const b = a.JLbind({ name: 123 }, 666);
+
 b(555, 444);
 
 export {};
