@@ -3,14 +3,15 @@ const STATUS_FULFILLED = 'fulfilled';
 const STATUS_REJECTED = 'rejected';
 class JLPromise {
   constructor(executor) {
-    this.value = undefined;
-    this.reason = undefined;
-    this.status = STATUS_PENDING;
+    this.value = undefined; //返回值
+    this.reason = undefined; //错误原因
+    this.status = STATUS_PENDING; //状态值
     this.onFulfilledCallbacks = [];
     this.onRejectedCallbacks = [];
     const resolve = (value) => {
       if (this.status === STATUS_PENDING) {
         queueMicrotask(() => {
+          //加到微任务里
           if (this.status !== STATUS_PENDING) return;
           this.status = STATUS_FULFILLED;
 
@@ -78,6 +79,7 @@ class JLPromise {
         if (onFulfilled && typeof onFulfilled === 'function') {
           this.onFulfilledCallbacks.push(() => {
             try {
+              //this.value=.then后的res返回值
               const value = onFulfilled(this.value);
               res(value);
             } catch (error) {
@@ -166,6 +168,7 @@ class JLPromise {
   }
 }
 const promise = new JLPromise((res, rej) => {
+  debugger;
   res(1234);
   // rej(123);
 });
