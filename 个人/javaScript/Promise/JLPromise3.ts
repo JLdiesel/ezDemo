@@ -5,7 +5,7 @@ enum statusEnum {
   fulfilled = 'fulfilled',
   rejected = 'rejected',
 }
-class JLPromise {
+export class JLPromise {
   status: statusEnum;
   value: unknown;
   reason: unknown;
