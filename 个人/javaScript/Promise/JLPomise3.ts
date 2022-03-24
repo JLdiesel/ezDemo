@@ -1,40 +1,44 @@
-type extectorType = (
-  resolve: (value: unknown) => void,
-  reject: (reason?: any) => void
-) => void;
+type fnType = (value: unknown) => void;
+type extectorType = (resolve: fnType, reject: fnType) => void;
 enum statusEnum {
-  pending,
-  fulfilled,
-  rejected,
+  pending = 'pending',
+  fulfilled = 'fulfilled',
+  rejected = 'rejected',
 }
 class JLPromise {
   status: statusEnum;
   value: unknown;
   reason: unknown;
-  onFulfilledFns: null | ((value: unknown) => void);
-  onRejectedFns: null | ((reason: unknown) => void);
+  onFulfilledFns: fnType[];
+  onRejectedFns: fnType[];
   constructor(executor: extectorType) {
     this.status = statusEnum.pending;
-    this.onFulfilledFns = null;
-    this.onRejectedFns = null;
-    const reject = (error: unknown): void => {
+    this.onFulfilledFns = [];
+    this.onRejectedFns = [];
+    const reject: fnType = (error: unknown): void => {
       if (this.status === statusEnum.pending) {
         queueMicrotask(() => {
+          if (this.status !== statusEnum.pending) return;
           this.status = statusEnum.rejected;
           this.reason = error;
           if (this.onRejectedFns) {
-            this.onRejectedFns(error);
+            this.onRejectedFns.forEach((item) => {
+              item(error);
+            });
           }
         });
       }
     };
-    const resolve = (value: unknown): void => {
+    const resolve: fnType = (value: unknown): void => {
       if (this.status === statusEnum.pending) {
         queueMicrotask(() => {
+          if (this.status !== statusEnum.pending) return;
           this.status = statusEnum.fulfilled;
           this.value = value;
           if (this.onFulfilledFns) {
-            this.onFulfilledFns(value);
+            this.onFulfilledFns.forEach((item) => {
+              item(value);
+            });
           }
         });
       }
@@ -45,56 +49,66 @@ class JLPromise {
       reject(error);
     }
   }
-  then(
-    onfulfilledFn?: (value: unknown) => void,
-    onRejectedFn?: (value: unknown) => void
-  ) {
+  then(onfulfilledFn?: fnType, onRejectedFn?: fnType) {
+    onRejectedFn =
+      typeof onRejectedFn === 'function'
+        ? onRejectedFn
+        : (err) => {
+            throw err;
+          };
+    onfulfilledFn =
+      typeof onfulfilledFn === 'function'
+        ? onfulfilledFn
+        : (value) => {
+            throw value;
+          };
     return new JLPromise((res, rej) => {
       if (this.status === statusEnum.fulfilled) {
-        if (onfulfilledFn) {
-          try {
-            const value = onfulfilledFn(this.value);
-            res(value);
-          } catch (err) {
-            rej(err);
-          }
+        try {
+          const value = onfulfilledFn!(this.value);
+          res(value);
+        } catch (err) {
+          rej(err);
         }
       }
       if (this.status === statusEnum.rejected) {
-        if (onRejectedFn) {
-          try {
-            const value = onRejectedFn(this.reason);
-            res(value);
-          } catch (err) {
-            rej(err);
-          }
+        try {
+          const value = onRejectedFn!(this.reason);
+          rej(value);
+        } catch (err) {
+          rej(err);
         }
       }
       if (this.status === statusEnum.pending) {
-        if (onfulfilledFn) {
-          this.onFulfilledFns = (values) => {
-            const value = onfulfilledFn(values);
+        this.onFulfilledFns.push((values) => {
+          try {
+            const value = onfulfilledFn!(values);
             res(value);
-          };
-        }
-
-        if (onRejectedFn) {
-          this.onRejectedFns = (reason) => {
-            const value = onRejectedFn(reason);
+          } catch (error) {
+            rej(error);
+          }
+        });
+        this.onRejectedFns.push((reason) => {
+          try {
+            const value = onRejectedFn!(reason);
             rej(value);
-          };
-        }
+          } catch (error) {
+            rej(error);
+          }
+        });
       }
     });
   }
-  catch(catchFn: (err: unknown) => void) {
+  catch(catchFn: fnType) {
     return this.then(undefined, catchFn);
   }
 }
 
-const promise = new JLPromise((res, rej) => {
+new JLPromise((res, rej) => {
   console.log(2131);
-  rej(123);
+  setTimeout(() => {
+    res(6512);
+  });
 })
   .then((res) => {
     console.log(res);
@@ -103,7 +117,18 @@ const promise = new JLPromise((res, rej) => {
   .then((res) => {
     console.log(res);
   })
+  .then((res) => {
+    console.log(res);
+  })
   .catch((err) => {
     console.log(err);
   });
 console.log(456);
+setTimeout(() => {
+  new JLPromise((res) => {
+    console.log(456);
+    res(666);
+  }).then((res) => {
+    console.log(res);
+  });
+});
