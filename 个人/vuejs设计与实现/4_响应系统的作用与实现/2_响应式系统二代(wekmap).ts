@@ -55,15 +55,17 @@ const obj = new Proxy(data, {
   },
   set(target, key, newVal) {
     target[key] = newVal;
-    //通过target对象从weakmap中获取map
-    const depsMap = bucket.get(target);
-    if (!depsMap) return;
-    //通过key从map中获取副作用函数set
-    const effects = depsMap.get(key);
-    //执行副作用函数
-    effects && effects.forEach((fn) => fn());
+    trigger(target, key);
     return true;
   },
 });
-
+function trigger(target, key) {
+  //通过target对象从weakmap中获取map
+  const depsMap = bucket.get(target);
+  if (!depsMap) return;
+  //通过key从map中获取副作用函数set
+  const effects = depsMap.get(key);
+  //执行副作用函数
+  effects && effects.forEach((fn) => fn());
+}
 export { effect };

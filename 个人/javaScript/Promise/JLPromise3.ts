@@ -115,12 +115,15 @@ new JLPromise((res, rej) => {
     return 321;
   })
   .then((res) => {
+    throw Error('1231');
     console.log(res);
   })
   .then((res) => {
     console.log(res);
   })
   .catch((err) => {
+    console.log(123);
+
     console.log(err);
   });
 console.log(456);

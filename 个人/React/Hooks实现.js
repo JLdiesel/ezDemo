@@ -49,7 +49,7 @@ function dispatchAction(queue, action) {
   if (queue.pending === null) {
     update.next = update;
   } else {
-    // queue.pending保存最后一个update
+    // queue.pending保存最后一个update  queue.pending u1-> queue.pending.next u0->u1
     update.next = queue.pending.next;
     queue.pending.next = update;
   }

@@ -11,12 +11,13 @@
 
 const bucket = new Set<() => void>();
 //用一个全局变量存储被注册的副作用函数
-let activeEffect;
+let activeEffect: () => void;
 //注册副作用函数
 function effect(fn: () => void) {
   activeEffect = fn;
   fn();
 }
+
 const data = { text: '123' };
 const obj = new Proxy(data, {
   //拦截读取操作
@@ -34,5 +35,11 @@ const obj = new Proxy(data, {
     return true;
   },
 });
-
+effect(() => {
+  console.log(obj.text);
+});
+setTimeout(() => {
+  obj.text = '12312';
+}, 3000);
+obj.text = '666';
 export {};
