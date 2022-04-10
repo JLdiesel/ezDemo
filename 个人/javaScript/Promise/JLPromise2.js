@@ -3,18 +3,19 @@ const STATUS_FULFILLED = 'fulfilled';
 const STATUS_REJECTED = 'rejected';
 class JLPromise {
   constructor(executor) {
-    this.value = undefined;
-    this.reason = undefined;
-    this.status = STATUS_PENDING;
+    this.value = undefined; //返回值
+    this.reason = undefined; //错误原因
+    this.status = STATUS_PENDING; //状态值
     this.onFulfilledCallbacks = [];
     this.onRejectedCallbacks = [];
     const resolve = (value) => {
       if (this.status === STATUS_PENDING) {
         queueMicrotask(() => {
+          //加到微任务里
           if (this.status !== STATUS_PENDING) return;
           this.status = STATUS_FULFILLED;
-
           this.value = value;
+
           this.onFulfilledCallbacks.forEach((fn) => {
             fn(this.value);
           });
@@ -28,6 +29,7 @@ class JLPromise {
           this.status = STATUS_REJECTED;
 
           this.reason = reason;
+
           this.onRejectedCallbacks.forEach((fn) => {
             fn(this.reason);
           });
@@ -78,6 +80,7 @@ class JLPromise {
         if (onFulfilled && typeof onFulfilled === 'function') {
           this.onFulfilledCallbacks.push(() => {
             try {
+              //this.value=.then后的res返回值
               const value = onFulfilled(this.value);
               res(value);
             } catch (error) {
@@ -165,9 +168,14 @@ class JLPromise {
     });
   }
 }
+
 const promise = new JLPromise((res, rej) => {
-  res(1234);
-  // rej(123);
+  debugger;
+  // res(1234);
+  console.log(123);
+  setTimeout(() => {
+    res(123);
+  }, 0);
 });
 promise
   .then((res) => {
@@ -176,7 +184,11 @@ promise
   })
   .then((res) => {
     console.log('res3', res);
-    return 111;
+    return 222;
+  })
+  .then((res) => {
+    console.log('res4', res);
+    return 333;
   })
   .catch((err) => {
     console.log('catch', err);
@@ -185,7 +197,7 @@ promise
     console.log('finally', res);
   });
 setTimeout(() => {
-  promise.then(
+  new JLPromise((res) => res(512)).then(
     (res) => {
       console.log('res2', res);
     },
@@ -193,4 +205,4 @@ setTimeout(() => {
       console.log('err2', err);
     }
   );
-}, 1000);
+}, 0);
