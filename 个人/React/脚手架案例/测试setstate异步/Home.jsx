@@ -1,19 +1,13 @@
-import React, { PureComponent } from 'react'
-
-export default class Home extends PureComponent {
-    state = { myname: '金龙', mycount: 5 }
-    changecount = () => {
-        this.props.add((count) => {
-            this.setState({ mycount: count })
-        })
+import React, { useState } from 'react'
+function Home() {
+    const [myname,setMyname]=useState('金龙')
+    function changeName() {
+        setMyname('物联网')
     }
-    render() {
-        return (
-            <div>
-                {this.state.mycount}
-                {/* {this.state.myname} */}
-                <button onClick={this.transform}>传功</button>
-            </div>
-        )
-    }
+    return (
+        <div>
+            {myname}
+            <button onClick={changeName}>传功</button>
+        </div>
+    )
 }
