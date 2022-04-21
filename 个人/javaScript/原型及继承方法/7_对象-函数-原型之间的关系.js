@@ -9,7 +9,7 @@
 
 // Foo是一个对象，有隐式原型Foo.__proto__===Function.prototype
 // Foo.__proto__=Function.prototype={constructor:Function }
-
+'a'.toLowerCase().length
 // Foo的prototype指向它的原型对象{constructor:Foo}，原型对象的constructor指向Foo函数本身
 console.log(Foo === Foo.prototype.constructor); //true
 console.log(Foo.prototype.__proto__ === Object.prototype); //true

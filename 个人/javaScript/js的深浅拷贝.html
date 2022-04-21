@@ -1,93 +1,96 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
-  </head>
 
-  <body>
-    <script>
-      const s1 = Symbol('123');
-      const s2 = Symbol('234');
-      const person = {
-        name: {
-          value: '金龙',
-        },
-        age: '18',
-        hobby: ['吃饭', '睡觉', '打豆豆'],
-        a() {
-          console.log(123);
-        },
-        data: new Date(),
-        exp: /\*7/,
-        foo: function (a, b) {
-          console.log(123);
-        },
-        [s1]: '123',
-        s2: s2,
-        set: new Set(['123', '123']),
-        map: new Map().set('abc', '123'),
-      };
-      person.info = person;
-      //赋值   和上一个对象指向同一个内存地址
-      // const person1 = person
-      // person1.name = '金龙2'
-      // person1.age = '19'
-      // console.log(person);
-      // console.log(person1);
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Document</title>
+</head>
 
-      // 这个方法可以用来检测一个对象是否含有特定的自身属性obj.hasOwnProperty(key)
-      //为了遍历一个对象的所有属性时忽略掉继承属性，使用hasOwnProperty()来过滤该对象上的继承属性。
+<body>
+  <script>
+    const s1 = Symbol('123');
+    const s2 = Symbol('234');
+    const person = {
+      name: {
+        value: '金龙',
+      },
+      age: '18',
+      hobby: ['吃饭', '睡觉', '打豆豆'],
+      a() {
+        console.log(123);
+      },
+      data: new Date(),
+      exp: /\*7/,
+      foo: function (a, b) {
+        console.log(123);
+      },
+      [s1]: '123',
+      s2: s2,
+      set: new Set(['123', '123']),
+      map: new Map().set('abc', '123'),
+    };
+    person.info = person;
+    //赋值   和上一个对象指向同一个内存地址
+    // const person1 = person
+    // person1.name = '金龙2'
+    // person1.age = '19'
+    // console.log(person);
+    // console.log(person1);
 
-      //浅拷贝  简单数据类型不会一起改变，复杂数据类型会指向同一个内存地址
-      // function shallowCopy(obj) {
-      //     let newObj = {}
-      //     for (let key in obj) {
-      //         if (obj.hasOwnProperty(key)) {
-      //             newObj[key] = obj[key];
-      //         }
-      //     }
-      //     return newObj
-      // }
-      // const person2 = shallowCopy(person)
-      // person2.name = '金龙2'
-      // person2.hobby[0] = '唱歌'
-      // person2.hobby[1] = '跳舞'
-      // console.log(person2);
-      // console.log(person);
+    // 这个方法可以用来检测一个对象是否含有特定的自身属性obj.hasOwnProperty(key)
+    //为了遍历一个对象的所有属性时忽略掉继承属性，使用hasOwnProperty()来过滤该对象上的继承属性。
 
-      //深拷贝 所有的数据类型都不会一起改变
-      function deepClone(obj, map = new WeakMap()) {
-        if (typeof obj === 'symbol') return Symbol(obj.discription);
-        if (obj instanceof Date) return new Date(obj);
-        if (obj instanceof Set) return new Set([...obj]);
-        if (obj instanceof Map) return new Map([...obj]);
-        if (obj instanceof RegExp) return new RegExp(obj);
-        if (typeof obj !== 'object' || obj === null) return obj;
-        if (map.has(obj)) {
-          return map.get(obj);
-        }
-        let newObj = new obj.constructor();
-        map.set(obj, newObj);
-        for (const key in obj) {
-          //   if (obj.hasOwnProperty(key)) {
-          newObj[key] = deepClone(obj[key]);
-          //   }
-        }
-        const kymbolKeys = Object.getOwnPropertySymbols(obj);
-        for (const skey of kymbolKeys) {
-          newObj[skey] = deepClone(obj[skey], map);
-        }
-        return newObj;
+    //浅拷贝  简单数据类型不会一起改变，复杂数据类型会指向同一个内存地址
+    // function shallowCopy(obj) {
+    //     let newObj = {}
+    //     for (let key in obj) {
+    //         if (obj.hasOwnProperty(key)) {
+    //             newObj[key] = obj[key];
+    //         }
+    Array.isArray
+    //     }
+    //     return newObj
+    // }
+    // const person2 = shallowCopy(person)
+    // person2.name = '金龙2'
+    // person2.hobby[0] = '唱歌'
+    // person2.hobby[1] = '跳舞'
+    // console.log(person2);
+    // console.log(person);
+
+    //深拷贝 所有的数据类型都不会一起改变
+    function deepClone(obj, map = new WeakMap()) {
+      if (typeof obj === 'symbol') return Symbol(obj.discription);
+      if (obj instanceof Date) return new Date(obj);
+      if (obj instanceof Set) return new Set([...obj]);
+      if (obj instanceof Map) return new Map([...obj]);
+      if (obj instanceof RegExp) return new RegExp(obj);
+      if (typeof obj !== 'object' || obj === null) return obj;
+      if (map.has(obj)) {
+        return map.get(obj);
       }
-      // JSON.parse(JSON.stringify())
-      let person3 = deepClone(person);
-      person3.name.value = '金龙123';
-      person3.hobby[0] = '我喜欢的是';
-      console.log(person3);
-      console.log(person);
-    </script>
-  </body>
+      let newObj = new obj.constructor();
+      map.set(obj, newObj);
+      for (const key in obj) {
+        //   if (obj.hasOwnProperty(key)) {
+        newObj[key] = deepClone(obj[key]);
+        //   }
+      }
+      const kymbolKeys = Object.getOwnPropertySymbols(obj);
+      for (const skey of kymbolKeys) {
+        newObj[skey] = deepClone(obj[skey], map);
+      }
+      return newObj;
+    }
+    // JSON.parse(JSON.stringify())
+    let person3 = deepClone(person);
+    person3.name.value = '金龙123';
+    person3.hobby[0] = '我喜欢的是';
+    console.log(person3);
+    console.log(person);
+  </script>
+</body>
+
 </html>
