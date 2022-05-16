@@ -6,7 +6,8 @@ const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const WorkboxWebpackPlugin = require("workbox-webpack-plugin");
 const TerserPlugin = require("terser-webpack-plugin");
 const {CleanWebpackPlugin}=require('clean-webpack-plugin')
-const {VueLoaderPlugin}=require('vue-loader')
+const { VueLoaderPlugin } = require('vue-loader')
+const webpack =require('webpack')
 const isProduction = process.env.NODE_ENV == "production";
 
 const stylesHandler = MiniCssExtractPlugin.loader;
@@ -27,6 +28,7 @@ const config = {
       template: "index.html",
     }),
     new VueLoaderPlugin(),
+    new webpack.optimize.ModuleConcatenationPlugin(),
     new MiniCssExtractPlugin(),
     // Add your plugins here
     // Learn more about plugins from https://webpack.js.org/configuration/plugins/
@@ -63,7 +65,18 @@ const config = {
   },
     optimization: {
       minimize: true,
-      minimizer: [new TerserPlugin({extractComments: true})],
+      minimizer: [new TerserPlugin({ parallel: true,
+        extractComments: false,
+        terserOptions: {
+          compress: {
+            arguments: false,
+            dead_code: true
+          },
+          mangle: true,
+          toplevel: true,
+          keep_classnames: true,
+          keep_fnames: true
+        }})],
       chunkIds: 'named',
       usedExports: true,
       splitChunks: {
