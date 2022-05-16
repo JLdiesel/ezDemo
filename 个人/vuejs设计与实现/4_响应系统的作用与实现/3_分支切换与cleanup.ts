@@ -13,9 +13,10 @@ interface effectFn {
 }
 let activeEffect: {
   (): void;
+  
   deps: Set<() => void>[];
 } | null;
-const data = { ok: true, text: 'helloworld' };
+const data = { ok: true, text: 'helloworld',foo:1 };
 const obj = new Proxy(data, {
   get<T>(target: T, key: keyof T) {
     track(target, key);
@@ -89,8 +90,8 @@ set.forEach((item) => {
 });
 
   */
-  const effcetsToRun = new Set(effects);  //新增
-  effcetsToRun.forEach(effectfn=>effectfn())
+  const effectsToRun = new Set(effects);  //新增
+  effectsToRun.forEach(effectFn=>effectFn())
 }
 function track<T>(target: T, key: keyof T) {
   //没有activeEffect 直接return
@@ -119,3 +120,4 @@ effect(() => {
 effect(() => {
   console.log(obj.ok);
 });
+export {}
