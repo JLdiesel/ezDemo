@@ -46,12 +46,12 @@ function watch<sourceType>(source:sourceType, cb:(newVal:sourceType,oldValue:sou
   const job = () => {
       //重新执行副作用函数得到的是新值
     newValue = effectFn() as sourceType
-    
     //在第二次进入job时，才会调用cleanup，并且fn是第一个副作用的过期函数，对第二个不影响
       if (cleanup) {
         //在调用回调函数cb之前，先调用过期回调
         cleanup()
-      }
+    }
+    
       //当源数据发生改变时执行callback
       cb(oldValue, newValue,onInvalidate)
       //把新值赋给老值

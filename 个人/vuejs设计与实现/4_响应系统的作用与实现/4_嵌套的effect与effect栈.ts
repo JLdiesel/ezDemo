@@ -22,7 +22,7 @@ const Bar = {
 }
 const Foo = {
   render(){
-   return <Bar />
+   return Bar 
   }
 }
 //相当于

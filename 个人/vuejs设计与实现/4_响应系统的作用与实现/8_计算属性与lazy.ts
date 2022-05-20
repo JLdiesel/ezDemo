@@ -51,7 +51,7 @@ function effect(fn: () => void,options:effectFnOptions={}) {
   //如果是lazy的，则返回副作用函数
   return effectFn;
 }
-function track<T>(target: T, key: keyof T) {
+function track<T>(target: T, key) {
   //没有activeEffect 直接return
   if (!activeEffect) return;
   //根据target从桶中获取depsMap
@@ -132,4 +132,4 @@ effect(() => {
   //如果在另一个副作用函数中读取res.value
 console.log(res.value);
 })
- obj.foo++
+obj.foo++
