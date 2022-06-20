@@ -1,0 +1,3 @@
+# 告诉pnpm用monorepo
+packages:
+  - 'packages/*'
