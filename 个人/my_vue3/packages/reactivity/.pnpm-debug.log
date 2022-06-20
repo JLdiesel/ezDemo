@@ -1,0 +1,14 @@
+{
+  "0 debug pnpm:scope": {
+    "selected": 1
+  },
+  "1 error pnpm": {
+    "code": "ERR_PNPM_CANNOT_REMOVE_MISSING_DEPS",
+    "err": {
+      "name": "pnpm",
+      "message": "Cannot remove 'vue': project has no dependencies of any kind",
+      "code": "ERR_PNPM_CANNOT_REMOVE_MISSING_DEPS",
+      "stack": "pnpm: Cannot remove 'vue': project has no dependencies of any kind\n    at Object.handler (C:\\Users\\longya\\AppData\\Roaming\\npm\\node_modules\\pnpm\\dist\\pnpm.cjs:124309:15)\n    at async C:\\Users\\longya\\AppData\\Roaming\\npm\\node_modules\\pnpm\\dist\\pnpm.cjs:187855:21\n    at async run (C:\\Users\\longya\\AppData\\Roaming\\npm\\node_modules\\pnpm\\dist\\pnpm.cjs:187829:34)\n    at async runPnpm (C:\\Users\\longya\\AppData\\Roaming\\npm\\node_modules\\pnpm\\dist\\pnpm.cjs:188047:5)\n    at async C:\\Users\\longya\\AppData\\Roaming\\npm\\node_modules\\pnpm\\dist\\pnpm.cjs:188039:7"
+    }
+  }
+}
