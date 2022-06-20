@@ -133,3 +133,6 @@ effect(() => {
 console.log(res.value);
 })
 obj.foo++
+export {
+  effect,track,trigger,computed,bucket,activeEffect,effectStack
+}

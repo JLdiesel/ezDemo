@@ -1,13 +1,20 @@
-function reactive(obj) {  
+function createReactive(obj,isShallow:boolean=false,isReadOnly:boolean=false) {
   const raw=Symbol()
   return new Proxy(obj, {
-    get(target, key, source) {
-      //在get方法中添加 key=raw时返回源对象
+    get(target, key, receiver) {
       if (key === raw) {
         return target
       }
-      track(target, key);
-      return Reflect.get(target, key, source)
+      const res = Reflect.get(target, key, receiver)
+      track(target,key)
+      //如果是浅响应，则直接返回原始值
+      if (isShallow) {
+        return res
+      }
+      if (typeof res === 'object' && res !== null) {
+        return createReactive(res)
+      }
+      return res
     },
     set<T>(target: T, key: keyof T, newVal: T[keyof T], receiver) {
       //获取旧值
@@ -27,19 +34,5 @@ function reactive(obj) {
       }
       return res;
     },
-  });
+  })
 }
-const obj = {}
-const proto = { bar: 1 }
-const child = reactive(obj);
-const parent = reactive(proto);
-//使用parent作为child的原型
-Object.setPrototypeOf(child, parent)
-effect(() => {
-  //打印bar，会先执行child的get操作，添加函数依赖，然后执行parent的get操作，也会把依赖添加到parent上
-  console.log(child.bar);//1
-})
-//修改child.bar的值
-//会执行child的set方法，触发副作用函数，但找不到bar会去原型链上找，执行parent的set方法，又触发副作用函数
-child.bar = 2//会导致副作用函数重新执行两次
-export { }
