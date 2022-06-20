@@ -11,6 +11,10 @@
     "strict": true /* Enable all strict type-checking options. */,
     "jsx": "preserve", //不转译jsx
     "skipLibCheck": true /* Skip type checking all .d.ts files. */,
-    "lib": ["ESNext", "DOM"] //支持的类库
+    "lib": ["ESNext", "DOM"], //支持的类库
+    "baseUrl": ".",
+    "paths": {
+      "@vue/*": ["packages/*/src"]
+    }
   }
 }
