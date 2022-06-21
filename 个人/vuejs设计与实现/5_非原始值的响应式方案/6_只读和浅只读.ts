@@ -1,4 +1,8 @@
-import { LoaderTargetPlugin } from "../../../webpack课堂/code/webpack-5.24.3/types";
+enum ITERATE_TYPE{
+  SET = 'SET',
+  ADD = 'ADD',
+  DEL='DELETE'
+}
 function readOnly(obj:any) {
   return createReactive(obj,false,true)
 }
@@ -27,7 +31,6 @@ function createReactive(obj: any, isShallow: boolean = false, isReadOnly: boolea
     set<T extends object>(target: T, key: keyof T, newVal: T[keyof T], receiver) {
       if (isReadOnly) {
         console.warn(`属性${String(key)}是只读的`);
-
         return true
       }
       //获取旧值
@@ -55,7 +58,7 @@ function createReactive(obj: any, isShallow: boolean = false, isReadOnly: boolea
       //检查被操作的属性是否是对象自己的属性
       const hadKey = Object.prototype.hasOwnProperty.call(target, key)
       //使用Reflect.deleteProperty 删除属性
-      const res = Reflect.deleteProperty(LoaderTargetPlugin, key)
+      const res = Reflect.deleteProperty(target, key)
       if (res && hadKey) {
         trigger(target, key, ITERATE_TYPE.DEL)
       }
