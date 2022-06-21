@@ -29,7 +29,6 @@ export function reactive(target: any) {
   if (existingProxy) return existingProxy;
   const proxy = new Proxy(target, {
     /**
-     *
      * @param target 原对象，被代理对象
      * @param key 原对象的key
      * @param receiver 代理对象
@@ -41,11 +40,7 @@ export function reactive(target: any) {
       return Reflect.get(target, key, receiver);
     },
     /**
-     * @param target 原对象，被代理对象
-     * @param key 原对象的key
-     * @param receiver 代理对象
      * @param value 新赋值的value
-     * @returns
      */
     set<T extends object>(
       target: T,
