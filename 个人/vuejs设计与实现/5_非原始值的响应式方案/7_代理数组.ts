@@ -23,14 +23,13 @@ const effectStack = [];
 let activeEffect: effectFn | null;
 const bucket = new WeakMap<
   {},
-  Map<string | number | symbol, Set<effectFn>>
+  Map<string  | symbol, Set<effectFn>>
 >();
 
-function createReactive(obj: any, isShallow: boolean = false, isReadOnly: boolean = false) {
+function createReactive<T extends object>(obj: T, isShallow: boolean = false, isReadOnly: boolean = false):T {
   const raw = Symbol()
-  return new Proxy<typeof obj>(obj, {
- 
-    set<T extends object>(target: T, key: keyof T, newVal: T[keyof T], receiver) {
+  return new Proxy<T>(obj, {
+    set(target, key, newVal, receiver) {
       if (isReadOnly) {
         console.warn(`属性${String(key)}是只读的`);
         return true
@@ -57,7 +56,7 @@ function createReactive(obj: any, isShallow: boolean = false, isReadOnly: boolea
     },
   })
 }
-function trigger<T>(target: T, key: keyof T, type?: ITERATE_TYPE, newVal?: T[keyof T]) {
+function trigger<T extends object>(target: T, key:string |symbol, type?: ITERATE_TYPE, newVal?: T[keyof T]) {
   const depsMap = bucket.get(target)
   if (!depsMap) return;
   //获取与key相关联的副作用函数

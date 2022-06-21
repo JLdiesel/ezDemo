@@ -1,6 +1,6 @@
-function createReactive(obj: any, isShallow: boolean = false, isReadOnly: boolean = false) {
+function createReactive<T extends object>(obj: T, isShallow: boolean = false, isReadOnly: boolean = false):T{
   const raw = Symbol()
-  return new Proxy<typeof obj>(obj, {
+  return new Proxy<T>(obj, {
     get(target, key, receiver) {
       if (key === raw) {
         return target
