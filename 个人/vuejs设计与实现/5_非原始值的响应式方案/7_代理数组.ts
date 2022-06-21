@@ -29,25 +29,7 @@ const bucket = new WeakMap<
 function createReactive(obj: any, isShallow: boolean = false, isReadOnly: boolean = false) {
   const raw = Symbol()
   return new Proxy<typeof obj>(obj, {
-    get(target, key, receiver) {
-      if (key === raw) {
-        return target
-      }
-      const res = Reflect.get(target, key, receiver)
-      //如果是只读的，则不需要建立响应式联系
-      if (!isReadOnly) {
-        // track(target,key)
-      }
-      //如果是浅响应，则直接返回原始值
-      if (isShallow) {
-        return res
-      }
-      if (typeof res === 'object' && res !== null) {
-        //如果数据为只读，则递归包装
-        return isReadOnly ? readOnly(res) : createReactive(res)
-      }
-      return res
-    },
+ 
     set<T extends object>(target: T, key: keyof T, newVal: T[keyof T], receiver) {
       if (isReadOnly) {
         console.warn(`属性${String(key)}是只读的`);
@@ -73,24 +55,9 @@ function createReactive(obj: any, isShallow: boolean = false, isReadOnly: boolea
       }
       return res;
     },
-    deleteProperty<T extends object>(target: T, key: keyof T) {
-      if (isReadOnly) {
-        console.warn(`属性${String(key)}是只读的`);
-        return true
-      }
-      //检查被操作的属性是否是对象自己的属性
-      const hadKey = Object.prototype.hasOwnProperty.call(target, key)
-      //使用Reflect.deleteProperty 删除属性
-      const res = Reflect.deleteProperty(target, key)
-      if (res && hadKey) {
-        trigger(target, key, ITERATE_TYPE.DEL)
-      }
-      // track(target, key);
-      return res
-    },
   })
 }
-function trigger<T>(target: T, key: keyof T, type: ITERATE_TYPE, newVal: T[keyof T]) {
+function trigger<T>(target: T, key: keyof T, type?: ITERATE_TYPE, newVal?: T[keyof T]) {
   const depsMap = bucket.get(target)
   if (!depsMap) return;
   //获取与key相关联的副作用函数
@@ -115,7 +82,7 @@ function trigger<T>(target: T, key: keyof T, type: ITERATE_TYPE, newVal: T[keyof
   if (Array.isArray(target) && key === 'length') {
     //取出所有索引大于新length的元素的副作用函数并添加到effectsToRun等待执行
     depsMap.forEach((effects, key) => {
-      if (Number(key) >= Number(newVal)) {
+      if (Number(key) >= Number(newVal!)) {
         effects && effects.forEach(effectFn => {
           if (effectFn !== activeEffect) {
             effectsToRun.add(effectFn)
