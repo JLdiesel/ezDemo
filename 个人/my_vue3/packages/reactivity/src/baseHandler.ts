@@ -1,3 +1,4 @@
+import { track, tirgger } from './effect';
 export enum ReactiveFlags {
   IS_REACTIVE = '__v_isReactive'
 }
@@ -11,6 +12,7 @@ export const mutableHandler = {
     //调用
     if (key === ReactiveFlags.IS_REACTIVE) return true;
     console.log(key); //用Reflect会把this改成代理对象 取target.age的时候会先读取target.age,再读取target.name
+    track(target, 'get', key);
     return Reflect.get(target, key, receiver);
   },
   /**
@@ -22,7 +24,12 @@ export const mutableHandler = {
     value: T[keyof T],
     receiver: any
   ) {
-    const map = reactiveMap.get(target);
+    let oldValue = target[key];
+    let result = Reflect.set(target, key, value, receiver);
+    if (oldValue != value) {
+      //值变化了 要更新
+      tirgger(target, 'set', key, value, oldValue);
+    }
     return Reflect.set(target, key, value, receiver);
   }
 };
