@@ -1,4 +1,4 @@
-import { track, tirgger } from './effect';
+import { track, trigger } from './effect';
 export enum ReactiveFlags {
   IS_REACTIVE = '__v_isReactive'
 }
@@ -28,7 +28,7 @@ export const mutableHandler = {
     let result = Reflect.set(target, key, value, receiver);
     if (oldValue != value) {
       //值变化了 要更新
-      tirgger(target, 'set', key, value, oldValue);
+      trigger(target, 'set', key, value, oldValue);
     }
     return Reflect.set(target, key, value, receiver);
   }
