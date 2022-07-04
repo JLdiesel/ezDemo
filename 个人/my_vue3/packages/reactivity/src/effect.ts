@@ -73,6 +73,9 @@ export function tirgger<T>(
   const effects = depsMap.get(key); //属性对应的effects
   effects &&
     effects.forEach((effectFn) => {
-      effectFn!.run();
+      //如果当前执行副作用函数的过程中，执行到了自己，就会进入死循环
+      if (effectFn !== activeEffect) {
+        effectFn!.run();
+      }
     });
 }
