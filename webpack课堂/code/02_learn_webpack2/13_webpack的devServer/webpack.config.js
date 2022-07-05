@@ -41,4 +41,4 @@ module.exports = {
     new ReactRefreshWebpackPlugin(),
     new VueLoaderPlugin()
   ]
-}
+} 
