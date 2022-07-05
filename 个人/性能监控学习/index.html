@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      function log() {
+        console.log(performance.timeOrigin);
+
+        console.log(performance.now()); // High Resolution Time 高精度时间  精确到小数点后10位 到纳秒  以毫秒为单位，并且为单调递增   不会被系统时间所影响
+        console.log(Date.now()); //拿到的是系统时间
+        console.log(performance.timing);
+        console.log(performance.navigation);
+        console.log(performance.toJSON());
+        const timing = PerformanceNavigationTiming.domComplete;
+        const dom = PerformanceNavigationTiming.domContentLoadedEventEnd;
+        console.log(dom);
+        console.log(timing);
+        const serverTiming = new PerformanceServerTiming();
+        console.log(serverTiming);
+        const paintTiming = new PerformancePaintTiming();
+        console.log(paintTiming);
+        const resourceTiming = new PerformanceResourceTiming();
+        console.log(resourceTiming);
+        /* 
+    
+    connectEnd:   连接结束
+connectStart:  连接开始
+domComplete:  dom完成
+domContentLoadedEventEnd: dom 内容加载事件结束 
+domContentLoadedEventStart: dom 内容加载事件开始
+domInteractive:  dom互动
+domLoading:  加载域
+domainLookupEnd:   域查找结束
+domainLookupStart:  域查找开始
+fetchStart:  获取开始
+loadEventEnd:  加载事件结束
+loadEventStart:  加载事件开始
+navigationStart:  导航开始
+redirectEnd: 重定向结束
+redirectStart: 重定向开始
+requestStart:  请求开始
+responseEnd:  回复结束
+responseStart:  响应开始
+secureConnectionStart: 0 安全连接开始：0
+unloadEventEnd:   卸载事件结束
+unloadEventStart:   卸载事件开始
+    */
+      }
+      log();
+    </script>
+  </body>
+</html>
