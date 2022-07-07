@@ -1,1 +1,1 @@
-import './monitor'
+import './monitor';

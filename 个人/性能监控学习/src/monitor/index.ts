@@ -1,2 +1,2 @@
-import { injectJsError } from './lib/jsError'
-injectJsError()
+import injectJsError from './lib/jsError';
+injectJsError();
