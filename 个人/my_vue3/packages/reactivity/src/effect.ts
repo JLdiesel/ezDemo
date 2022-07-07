@@ -7,7 +7,7 @@ import { keyType } from './baseHandler';
 type effectFn = InstanceType<typeof ReactiveEffect> | null;
 interface fnType {
   (): unknown;
-  effect: effectFn;
+  effect?: effectFn;
 }
 type schedulerFn = (fn: effectFn) => void;
 interface effectFnOptions {
@@ -28,7 +28,7 @@ function cleanUpEffect(effect: effectFn) {
   });
   effect!.deps.length = 0;
 }
-class ReactiveEffect {
+export class ReactiveEffect {
   public parent: effectFn = null;
   //记录该副作用函数对应的key的Set集合，Set集合中会包含该副作用函数
   //如果要删除该副作用函数，只需要遍历deps，拿到set后delete自身

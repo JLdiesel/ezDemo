@@ -16,8 +16,8 @@ effect(() => {
   */
 });
 let shouldTrack = true;
-['push'].forEach((method) => {
-  //获取原始push方法
+['push', 'pop', 'shift', 'unshift', 'splice'].forEach((method) => {
+  //获取原始方法
   const originMethod = Array.prototype[method];
   //重写
   arrayInstrumentations[method] = function (...args) {
