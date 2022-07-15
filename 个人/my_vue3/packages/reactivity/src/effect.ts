@@ -4,7 +4,7 @@
 //   options?: effectFnOptions;
 // }
 import { keyType } from './baseHandler';
-type effectFn = InstanceType<typeof ReactiveEffect> | null;
+export type effectFn = InstanceType<typeof ReactiveEffect> | null;
 interface fnType {
   (): unknown;
   effect?: effectFn;
@@ -81,6 +81,10 @@ export function track<T>(target: T, type, key: keyType) {
   if (!dep) {
     depsMap.set(key, (dep = new Set()));
   }
+  trackEffects(dep);
+}
+export function trackEffects(dep: Set<effectFn>) {
+  if (!activeEffect) return;
   //避免重复收集
   let shouldTrack = !dep.has(activeEffect);
   if (shouldTrack) {
@@ -100,6 +104,9 @@ export function trigger<T>(
   const depsMap = targetMap.get(target);
   if (!depsMap) return; //触发的值没有副作用函数/模板中使用
   const effects = depsMap.get(key); //属性对应的effects
+  triggerEffects(effects);
+}
+export function triggerEffects(effects: Set<effectFn> | undefined) {
   const effectsToRun = new Set<effectFn>();
   effects &&
     effects.forEach((effectFn) => {
