@@ -6,18 +6,18 @@ import {
   triggerEffects
 } from './effect';
 
-interface computedOptions {
-  get(): any;
+interface computedOptions<T> {
+  get(): T;
   set(): void;
 }
-class ComputedRefImpl {
+class ComputedRefImpl<T> {
   effect: ReactiveEffect;
   _dirty = true;
   _v_isReadonly = true;
   _v_isRef = true;
-  _value: any;
+  private _value: T=undefined as unknown as T;
   public dep = new Set<effectFn>();
-  constructor(public getter: () => any, public setter: (newVal: any) => void) {
+  constructor(public getter: () =>  T, public setter: (newVal: any) => void) {
     //将用户的getter放到effect中,执行后会收集依赖
     this.effect = new ReactiveEffect(getter, () => {
       //依赖变化会执行函数
@@ -34,7 +34,7 @@ class ComputedRefImpl {
     if (this._dirty) {
       //说明这个值是脏的
       this._dirty = false;
-      this._value = this.effect.run();
+      this._value = this.effect.run() as T;
     }
     return this._value;
   }
@@ -42,13 +42,13 @@ class ComputedRefImpl {
     this.setter(newVal);
   }
 }
-export function computed(
-  options: computedOptions
-): InstanceType<typeof ComputedRefImpl>;
-export function computed(
-  options: () => unknown
-): InstanceType<typeof ComputedRefImpl>;
-export function computed(getterOrOption: any) {
+export function computed<T>(
+  options: computedOptions<T>
+): InstanceType<typeof ComputedRefImpl<T>>;
+export function computed<T>(
+  options: () => T
+): InstanceType<typeof ComputedRefImpl<T>>;
+export function computed<T>(getterOrOption: any) {
   const onlyGetter = isFunction(getterOrOption);
   let getter;
   let setter;
@@ -61,5 +61,5 @@ export function computed(getterOrOption: any) {
     getter = getterOrOption.get;
     setter = getterOrOption.set;
   }
-  return new ComputedRefImpl(getter, setter);
+  return new ComputedRefImpl<T>(getter, setter);
 }
