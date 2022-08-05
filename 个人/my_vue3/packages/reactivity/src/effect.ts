@@ -5,7 +5,7 @@
 // }
 import { keyType } from './baseHandler';
 export type effectFn = InstanceType<typeof ReactiveEffect> | null;
-interface fnType {
+export interface fnType {
   (): unknown;
   effect?: effectFn;
 }
