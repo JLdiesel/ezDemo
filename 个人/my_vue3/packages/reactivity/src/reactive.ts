@@ -1,6 +1,6 @@
 import { isObject } from '@vue/shared';
 import { ReactiveFlags, mutableHandler, keyType } from './baseHandler';
-export function isReactive(target: any) {
+export function isReactive(target: any): boolean {
   return target && target[ReactiveFlags.IS_REACTIVE];
 }
 const target = {
