@@ -12,7 +12,7 @@ function toReactive(value: any) {
 class RefImplement<T> {
   _value: any;
   public dep = new Set<effectFn>();
-  private v_is_Ref = true;
+  public v_is_Ref = true;
   constructor(public rawValue: T) {
     this._value = toReactive(rawValue);
   }

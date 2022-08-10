@@ -14,7 +14,8 @@
     "lib": ["ESNext", "DOM"], //支持的类库
     "baseUrl": ".",
     "paths": {
-      "@vue/*": ["packages/*/src"] //alias 快捷查找path
+      "@vue/*": ["packages/*/src"] ,//alias 快捷查找path
+      "@test/*": ["packages/*"] //alias 快捷查找path
     }
   }
 }

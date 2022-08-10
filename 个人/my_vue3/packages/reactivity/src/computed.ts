@@ -11,13 +11,13 @@ interface computedOptions<T> {
   set(): void;
 }
 class ComputedRefImpl<T> {
-  effect: ReactiveEffect;
-  _dirty = true;
-  _v_isReadonly = true;
-  _v_isRef = true;
+ private effect: ReactiveEffect;
+ private _dirty = true;
+ private _v_isReadonly = true;
+ private _v_isRef = true;
   private _value: T=undefined as unknown as T;
-  public dep = new Set<effectFn>();
-  constructor(public getter: () =>  T, public setter: (newVal: any) => void) {
+  private dep = new Set<effectFn>();
+  constructor(private getter: () =>  T, private setter: (newVal: any) => void) {
     //将用户的getter放到effect中,执行后会收集依赖
     this.effect = new ReactiveEffect(getter, () => {
       //依赖变化会执行函数
