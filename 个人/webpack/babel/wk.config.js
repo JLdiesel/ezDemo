@@ -1,6 +1,9 @@
 const path = require('path');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+/**
+ * @type {import('webpack').Configuration}
+ */
 module.exports = {
   //production 会丑化压缩出来的代码
   mode: 'development',
