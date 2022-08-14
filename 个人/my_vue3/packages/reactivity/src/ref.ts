@@ -1,3 +1,4 @@
+import { isObject } from '@vue/shared';
 import {
   effectFn,
   track,
@@ -7,7 +8,7 @@ import {
 } from './effect';
 import { isReactive, reactive } from './reactive';
 function toReactive(value: any) {
-  return isReactive(value) ? value : reactive(value);
+  return isObject(value) ?  reactive(value):value;
 }
 class RefImplement<T> {
   _value: any;
