@@ -14,7 +14,16 @@ module.exports = {
     filename: 'monitor.js',
   },
   devServer: {
+    
     hot: true,
+    before(router) {
+      router.get('/success', (res) => {
+        res.send('成功')
+      })
+      router.post('/error', (res) => {
+        res.sendStatus(500)
+      })
+    }
   },
   resolve: {
     extensions: ['.ts', '.tsx', '.js', '.json'], //可以不写后缀，自动匹配
