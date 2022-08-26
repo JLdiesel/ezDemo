@@ -5,15 +5,19 @@ export default function injectJsError() {
   window.addEventListener('error', function (event) {
     //错误事件对象
     const lastEvent = getLastEvent(); //最后一个交互事件
-    const {
+    let log
+        const {
       message,
       filename,
       lineno,
       colno,
       error: { stack }
     } = event;
-    console.log(event);
-    let log = {
+    if (event.target && (event.target.src || event.target.href)) {
+      
+    } else {
+    
+     log = {
       kind: 'stability', //监控指标的大类
       type: 'error', //小类，错误
       errorType: 'jsError', //JS执行错误
@@ -24,15 +28,51 @@ export default function injectJsError() {
       stack: getLines(stack),
       selector: lastEvent ? getSelector(lastEvent.path) : '' //代表最后一个操作的元素
     };
-    console.log(log);
+    }
     tracker.send(log)
+  
   });
-
+window.addEventListener('unhandledrejection',(event)=>{
+    //错误事件对象
+    const lastEvent = getLastEvent(); //最后一个交互事件
+   const {
+     reason
+   } = event;
+  let message,stack='',line=0,column=0,filename;
+  if (typeof reason === 'string') {
+    message=reason
+  } else if (typeof reason === 'object') {
+    if (reason.message) {
+    message = reason.message
+      
+    }
+    if (reason.stack) {
+      let matchResult = reason.stack.match(/at\s+(.+):(\d+):(\d+)/)
+      filename = matchResult[1];
+      line = matchResult[2];
+      column = matchResult[3];
+      stack=getLines(reason.stack)
+    }
+  }
+   
+    let log = {
+      kind: 'stability', //监控指标的大类
+      type: 'error', //小类，错误
+      errorType: 'promiseError', //JS执行错误
+      url: '', //哪个路径报错了
+      message, //报错信息
+      filename, //哪个文件报错了
+      position: `${line}:${column}`, //行：列
+      stack,
+      selector: lastEvent ? getSelector(lastEvent.path) : '' //代表最后一个操作的元素
+    };
+    tracker.send(log)
+})
   function getLines(stack: string) {
     return stack
       .split('\n')
       .slice(1)
-      .map((item) => item.replaceAll(/^\s+at\s+/, ''))
+      .map((item) => item.replaceAll(/^\s+at\s+/g, ''))
       .join('^');
   }
 }

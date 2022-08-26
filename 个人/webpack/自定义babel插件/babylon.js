@@ -5,8 +5,11 @@ const { default: generator } = require('@babel/generator');
 const t = require('@babel/types');
 const code3 = `var a = 1;
 function b() {
+  console.log(this.a)
   var func = () => {
-    console.log(this.b);
+    var func2=()=>{
+      console.log(this.b);
+    }
   };
 }
 `;
@@ -24,20 +27,27 @@ traverse(ast, {
   },
   ThisExpression: {
     enter(path) {
-      const THIS_NAME = '_this';
+      const haveParent = path.findParent((path) => t.isArrowFunctionExpression(path.node));
+      if (haveParent) {
+           const THIS_NAME = '_this';
       const thisNode = t.identifier(THIS_NAME),
         Node = t.variableDeclaration('const', [
           t.variableDeclarator(thisNode, t.identifier('this'))
         ]);
+        
       const outPath = path.findParent((path) => t.isBlockScoped(path.node));
       if (outPath) {
         path.replaceWith(thisNode);
         outPath.insertBefore(Node);
       }
+      }
+      
+     
     }
   },
   ArrowFunctionExpression: {
     enter(path) {
+      
       const node = path.node;
       const parent = path.findParent((path) =>
         t.isVariableDeclaration(path.node)

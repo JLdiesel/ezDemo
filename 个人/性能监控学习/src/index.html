@@ -17,7 +17,12 @@
       function jsError() {
         window.somVar.error = 'error';
       }
-      function promiseError() {}
+      function promiseError() {
+        new Promise(function (res,rej){
+        window.somVar.error = 'error';
+          
+        })
+      }
     </script>
   </body>
 </html>

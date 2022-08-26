@@ -1,10 +1,13 @@
-function getSelector(path) {
-  path
+function getSelector(path: []) {
+  
+ return path
     .reverse()
-    .filter(element => {
-      return element !== document || element !== window;
+   .filter(element => {
+      
+      return !(element === document || element === window);
     })
-    .map(element => {
+   .map((element: Element) => {
+      
       let selector = '';
       if (element.id) {
         return `${element.nodeName.toLowerCase()}#${element.id}`;
@@ -14,11 +17,9 @@ function getSelector(path) {
         selector = element.nodeName.toLowerCase();
       }
       return selector;
-    });
+    }).join(' ')
 }
 
-export default function (path) {
-  if (Array.isArray(path)) {
+export default function (path:[]):string {
     return getSelector(path);
-  }
 }
