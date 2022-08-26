@@ -4,19 +4,28 @@ import tracker from '../utils/tracker'
 export default function injectJsError() {
   window.addEventListener('error', function (event) {
     //错误事件对象
+    console.log(event)
     const lastEvent = getLastEvent(); //最后一个交互事件
     let log
-        const {
+       
+    if (event.target && (event.target.src || event.target.href)) {
+         log = {
+      kind: 'stability', //监控指标的大类
+      type: 'error', //小类，错误
+      errorType: 'resourceError', //JS执行错误
+      url: '', //哪个路径报错了
+      message:"资源加载错误", //报错信息
+           filename: event.target.src, //哪个文件报错了
+      tagName:event.target.tagName,
+    };
+    } else {
+     const {
       message,
       filename,
       lineno,
       colno,
       error: { stack }
     } = event;
-    if (event.target && (event.target.src || event.target.href)) {
-      
-    } else {
-    
      log = {
       kind: 'stability', //监控指标的大类
       type: 'error', //小类，错误
@@ -31,7 +40,7 @@ export default function injectJsError() {
     }
     tracker.send(log)
   
-  });
+  },true);
 window.addEventListener('unhandledrejection',(event)=>{
     //错误事件对象
     const lastEvent = getLastEvent(); //最后一个交互事件
@@ -67,7 +76,7 @@ window.addEventListener('unhandledrejection',(event)=>{
       selector: lastEvent ? getSelector(lastEvent.path) : '' //代表最后一个操作的元素
     };
     tracker.send(log)
-})
+},true)
   function getLines(stack: string) {
     return stack
       .split('\n')

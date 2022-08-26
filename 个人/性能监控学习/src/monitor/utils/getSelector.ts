@@ -20,6 +20,9 @@ function getSelector(path: []) {
     }).join(' ')
 }
 
-export default function (path:[]):string {
-    return getSelector(path);
+export default function (paths: [] ) {
+  if (Array.isArray(paths)) {
+    
+    return getSelector(paths);
+  }
 }
