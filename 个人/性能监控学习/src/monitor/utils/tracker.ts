@@ -18,7 +18,6 @@ class SendTracker{
     let extraData = getExtraData();
     const log = { ...data, ...extraData }
       console.log(log);
-      
   }
 }
 export default new SendTracker('')

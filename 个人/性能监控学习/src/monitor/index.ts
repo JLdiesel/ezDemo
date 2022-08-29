@@ -1,3 +1,4 @@
 import injectJsError from './lib/jsError';
 import injectXhrError from './lib/xhr'
-injectJsError();injectXhrError()
+import blankScreen from './lib/blankScreen'
+injectJsError(); injectXhrError();blankScreen()
