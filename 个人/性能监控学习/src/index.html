@@ -9,10 +9,10 @@
   <body>
     <div id="container">
       <div class="content">
-        <input type="button" onclick="jsError" value="jsError" ></input>
-        <input type="button" onclick="promiseError" value="PromiseError"  ></input>
-        <input type="button" onclick="sendSuccess"   value="ajax成功"></input>
-        <input type="button" onclick="sendError"  value="ajax失败" ></input>
+        <input type="button" onclick="jsError()" value="jsError" ></input>
+        <input type="button" onclick="promiseError()" value="PromiseError"  ></input>
+        <input type="button" onclick="sendSuccess()"   value="ajax成功"></input>
+        <input type="button" onclick="sendError()"  value="ajax失败" ></input>
       </div>
     </div>
     <script>
@@ -36,7 +36,7 @@
       }
          function sendError(params) {
            const xhr=new XMLHttpRequest;
-          xhr.open('GET','/error',true);
+          xhr.open('POST','/error',true);
           xhr.responseType='json'
           xhr.onload=function(){
             console.log(xhr.response);

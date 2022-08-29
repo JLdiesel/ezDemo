@@ -14,7 +14,7 @@ class SendTracker{
   constructor(public url:string) {
     this.xhr=new XMLHttpRequest
   }
-  send(data:Partial< Record<string,string>>={}) {
+  send(data:Partial< Record<string,any>>={}) {
     let extraData = getExtraData();
     const log = { ...data, ...extraData }
       console.log(log);

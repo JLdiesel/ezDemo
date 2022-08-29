@@ -16,11 +16,12 @@ module.exports = {
   devServer: {
     
     hot: true,
-    before(router) {
-      router.get('/success', (res) => {
+    onAfterSetupMiddleware({app:router}) {
+      
+      router.get('/success', (req,res) => {
         res.send('成功')
       })
-      router.post('/error', (res) => {
+      router.post('/error', (req,res) => {
         res.sendStatus(500)
       })
     }
