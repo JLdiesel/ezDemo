@@ -8,7 +8,7 @@
   </head>
   <body>
     <div id="container">
-      <div class="content">
+      <div id="content">
         <input type="button" onclick="jsError()" value="jsError" ></input>
         <input type="button" onclick="promiseError()" value="PromiseError"  ></input>
         <input type="button" onclick="sendSuccess()"   value="ajax成功"></input>
@@ -16,7 +16,7 @@
       </div>
     </div>
     <script>
-      function jsError() {
+      /*  function jsError() {
         window.somVar.error = 'error';
       }
       function promiseError() {
@@ -49,8 +49,15 @@
       document.addEventListener('DOMContentLoaded',()=>{
         const start=Date.now()
         while((Date.now()-start) <1000){}
-      })
+      }) */
+      setTimeout(() => {
+        const content = document.getElementById('content');
+        let h1 = document.createElement('h1');
+        h1.innerHTML = '我是这个页面最有意义的内容';
+        h1.setAttribute('elementtiming', 'meaningful'); //只要给元素添加这个属性 就能证明这个属性是最有意义的
+        content.appendChild(h1);
+      }, 2000);
     </script>
-    <script src="./abc.js" defer></script>
+    <!-- <script src="./abc.js" defer></script> -->
   </body>
 </html>
