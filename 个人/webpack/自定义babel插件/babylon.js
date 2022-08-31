@@ -1,7 +1,9 @@
 const { parse } = require('babylon');
 // const { parse } = require('@babel/core');
 const { default: traverse } = require('babel-traverse');
+// const traverse = require('babel-traverse');
 const { default: generator } = require('@babel/generator');
+// const generator = require('@babel/generator');
 const t = require('@babel/types');
 const code3 = `var a = 1;
 function b() {

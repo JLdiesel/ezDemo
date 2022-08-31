@@ -67,10 +67,14 @@ export default function () {
       });
       const FP = performance.getEntriesByName('first-paint')[0];
       const FCP = performance.getEntriesByName('first-contentful-paint')[0];
-      console.log('FP', FP);
-      console.log('FCP', FCP);
-      console.log('FP', FMP);
-      console.log('FP', LCP);
+      tracker.send({
+        kind: 'experience',
+        type: 'paint',
+        firstPaint: FP.startTime,
+        firstContentfulPaint: FCP.startTime,
+        firstMeaningfulPaint: FMP.startTime,
+        largestContentfulPaint: LCP.startTime,
+      });
     }, 3000);
   });
 }
