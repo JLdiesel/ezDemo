@@ -2,6 +2,17 @@ import onload from '../utils/onload';
 import tracker from '../utils/tracker';
 export default function () {
   onload(function () {
+    let FMP, LCP;
+    new PerformanceObserver((entryList, observer) => {
+      const perfEntries = entryList.getEntries();
+      FMP = perfEntries[0];
+      observer.disconnect(); //不再观察
+    }).observe({ entryTypes: ['element'] }); //观察页面中有意义的元素
+    new PerformanceObserver((entryList, observer) => {
+      const perfEntries = entryList.getEntries();
+      LCP = perfEntries[0];
+      observer.disconnect(); //不再观察
+    }).observe({ entryTypes: ['largest-contentful-paint'] }); //观察页面中有意义的元素
     setTimeout(() => {
       console.log(window.performance.getEntriesByType('navigation')[0]);
       const {
