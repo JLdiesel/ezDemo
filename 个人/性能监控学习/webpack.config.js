@@ -1,5 +1,4 @@
 const path = require('path');
-//user-AGENT 把浏览器的UserAgent变成一个对象
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 /**
@@ -14,17 +13,15 @@ module.exports = {
     filename: 'monitor.js',
   },
   devServer: {
-    
     hot: true,
-    onAfterSetupMiddleware({app:router}) {
-      
-      router.get('/success', (req,res) => {
-        res.send('成功')
-      })
-      router.post('/error', (req,res) => {
-        res.sendStatus(500)
-      })
-    }
+    onAfterSetupMiddleware({ app: router }) {
+      router.get('/success', (req, res) => {
+        res.send('成功');
+      });
+      router.post('/error', (req, res) => {
+        res.sendStatus(500);
+      });
+    },
   },
   resolve: {
     extensions: ['.ts', '.tsx', '.js', '.json'], //可以不写后缀，自动匹配

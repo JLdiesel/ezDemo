@@ -53,3 +53,24 @@ Object.prototype[Symbol.iterator]=function interator() {
 for (let item of obj) {
   console.log(item);
 }
+const a = [1, 2, 3]
+a[Symbol.iterator] = function () {
+  const that=this
+  let length=this.length-1
+  return {
+    next() {
+      if (length >= 0) {
+        return {
+          value: that[length--],
+          done:false
+        }
+      } else {
+        return {
+          value: undefined,
+          done:true
+        }
+      }
+    }
+  }
+}
+console.log([...a])
