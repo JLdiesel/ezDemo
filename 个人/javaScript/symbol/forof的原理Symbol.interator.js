@@ -54,23 +54,28 @@ for (let item of obj) {
   console.log(item);
 }
 const a = [1, 2, 3]
-a[Symbol.iterator] = function () {
+a[Symbol.iterator] = function* () {
   const that=this
-  let length=this.length-1
-  return {
-    next() {
-      if (length >= 0) {
-        return {
-          value: that[length--],
-          done:false
-        }
-      } else {
-        return {
-          value: undefined,
-          done:true
-        }
-      }
-    }
+  let length = this.length - 1
+  while (length >= 0) {
+    yield this[length--]
   }
+  // return {
+  //   next() {
+  //     if (length >= 0) {
+  //       yield that[length--]
+  //       // return {
+  //       //   value: that[length--],
+  //       //   done:false
+  //       // }
+  //     }
+  //     // else {
+  //     //   return {
+  //     //     value: undefined,
+  //     //     done:true
+  //     //   }
+  //     // }
+  //   }
+  // }
 }
 console.log([...a])

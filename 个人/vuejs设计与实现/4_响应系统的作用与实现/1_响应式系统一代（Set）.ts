@@ -6,7 +6,7 @@
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: \web\学习代码\个人\vuejs设计与实现\4_响应系统的作用与实现\响应式系统一代.ts
  */
-//使用set的问题:被操作的目标字段和副作用函数之间没有建立明确的关联关系；
+// 使用set的问题:被操作的目标字段和副作用函数之间没有建立明确的关联关系；
 // 当读取属性时，无论哪个属性，都会收集副作用函数，设置属性时，无论哪个属性，都会触发所有副作用函数；
 
 const bucket = new Set<() => void>();
