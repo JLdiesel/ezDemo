@@ -19,8 +19,9 @@ class VueLoaderPlugin{
       }
     }
     const vueRule=rules.find(rule=>'foo.vue'.match(rule.test))
-    const cloneRules=rules.filter(rule=>rule!==vueRule).map(cloneRule)
-    compiler.options.module.rules = [pitcher, templateCompilerRule, ...cloneRules, ...rules]
+    const cloneRules = rules.filter(rule => rule !== vueRule).map(cloneRule)
+    //先编译模板后走babel
+    compiler.options.module.rules = [pitcher, ...cloneRules, templateCompilerRule, ...rules]
   }
 }
 function cloneRule(rule) {
