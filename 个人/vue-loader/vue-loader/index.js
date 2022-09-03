@@ -13,7 +13,7 @@ function loader(source) {
   const incomingQuery = new URLSearchParams(rawQuery);
 
   const { descriptor } = compiler.parse(source);  
-  const id = hash(resourcePath)//后面在实现scoped css的时候会游泳
+  const id = hash(resourcePath)//后面在实现scoped css的时候会用到
   const hasScoped=descriptor.styles.some(s=>s.scoped)
   if (incomingQuery.get('type')) {
     return select.selectBlock(descriptor,id,loaderContext,incomingQuery)
@@ -27,16 +27,21 @@ function loader(source) {
   }
   if (template) {
     const scopedQuery = hasScoped ? `&scoped=true` : '';
-    const query = `?vue&type=template&id=${id}&lang=js`
-    const request =stringifyRequest(loaderContext,resourcePath+query)
+    const query = `?vue&type=template&id=${id}${scopedQuery}&lang=js`
+    const request = stringifyRequest(loaderContext, resourcePath + query)
     code.push(`import {render} from ${request}`)
   }
   if (styles.length > 0) {
     styles.forEach((style, index) => {
-      const query = `?vue&type=style&index=${index}&id=${id}&lang=css`
+    const scopedQuery = style.scoped ? `&scoped=true` : '';
+      const query = `?vue&type=style&index=${index}&id=${id}${scopedQuery}&lang=css`
       const request =stringifyRequest(loaderContext,resourcePath+query)
       code.push(`import ${request}`)
     })
+  }
+  if (hasScoped) {
+    //为了给template的属性添加hash
+    code.push(`script.__scopeId="data-v-${id}"`)
   }
   code.push(`script.render=render`)
   code.push(`export default script`)
