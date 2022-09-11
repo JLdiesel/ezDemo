@@ -1,4 +1,5 @@
 import { isString, ShapeFlags } from "@vue/shared"
+import { getSequence } from "./sequence"
 import { createVnode, Fragment, isSameVnode, Text } from "./vnode"
 
 export function createRenderer(options) {
@@ -158,11 +159,13 @@ export function createRenderer(options) {
         patch(oldChild, c2[newIndex], el)
       }
     }
+    const incrementArr = getSequence(newIndexToOldIndex)
+
     //需要移动位置
+    let j = incrementArr.length - 1
     for (let i = toBePatched - 1; i >= 0; i--) {
       //i为要比较的内容的索引
       let index = i + s2 //真正的索引
-      console.log(c2, index);
 
       const current = c2[index]
       const anchor = index + 1 < c2.length ? c2[index + 1].el : null;
@@ -171,8 +174,13 @@ export function createRenderer(options) {
         //当前的current是新增的，没有所谓的el
         patch(null, current, el, anchor)
       } else {
-        //不是0，说明已经patch过了
-        hostInsert(current.el, el, anchor)
+        if (i !== incrementArr[j]) {
+          //不是0，说明已经patch过了
+          hostInsert(current.el, el, anchor)
+        } else {
+          j--
+        }
+
       }
     }
 
