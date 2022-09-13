@@ -57,19 +57,13 @@ export function createRenderer(options) {
       }
     }
   }
-  const processFragment = (n1, n2, container) => {
-    let { props, children, shapeFlag } = n2
-    const el = n2.el = container
-    if (props) {
-      for (const key in props) {
-        hostPatchProp(el, key, null, props[key])
-      }
+  const processFragment = (n1, n2, container, anchor) => {
+    if (n1 == null) {
+      mountChildren(container, n2.children)
+    } else {
+      patchChildren(n1, n2, container)
     }
-    if (shapeFlag & ShapeFlags.TEXT_CHILDREN) {
-      hostSetElementText(el, children)
-    } else if (shapeFlag & ShapeFlags.ARRAY_CHILDREN) {
-      mountChildren(el, children)
-    }
+
   }
   const patchProps = (oldProps, newProps, el) => {
     for (const key in newProps) { //新的里面有老的没有
@@ -269,7 +263,7 @@ export function createRenderer(options) {
         processText(n1, n2, container)
         break;
       case Fragment:
-        processFragment(n1, n2, container);
+        processFragment(n1, n2, container, anchor);
         break;
       default:
         if (shapeFlag & ShapeFlags.ELEMENT) {
@@ -277,12 +271,7 @@ export function createRenderer(options) {
         }
         break;
     }
-    // if (n1 === null) {
-    //   //初次渲染
-    //   mountElement(n2, container)
-    // } else {
-    //   //更新流程
-    // }
+
   }
   const render = (vnode, container) => {
     //如果当前vnode=null 
