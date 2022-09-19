@@ -1,13 +1,13 @@
 function getSelector(path: []) {
-  
- return path
+
+  return path
     .reverse()
-   .filter(element => {
-      
+    .filter(element => {
+
       return !(element === document || element === window);
     })
-   .map((element: Element) => {
-      
+    .map((element: Element) => {
+
       let selector = '';
       if (element.id) {
         return `${element.nodeName.toLowerCase()}#${element.id}`;
@@ -20,9 +20,9 @@ function getSelector(path: []) {
     }).join(' ')
 }
 
-export default function (paths: [] ) {
+export default function (paths: []) {
   if (Array.isArray(paths)) {
-    
+
     return getSelector(paths);
   }
 }

@@ -1,23 +1,22 @@
-const userAgent=require('user-agent')
+const userAgent = require('user-agent')
 function getExtraData() {
-  
   return {
     title: document.title,
     url: location.href,
     timestamp: Date.now(),
-    userAgent:userAgent.parse(navigator.userAgent)
+    userAgent: userAgent.parse(navigator.userAgent)
   }
 }
 
-class SendTracker{
-  xhr:XMLHttpRequest
-  constructor(public url:string) {
-    this.xhr=new XMLHttpRequest
+class SendTracker {
+  xhr: XMLHttpRequest
+  constructor(public url: string) {
+    this.xhr = new XMLHttpRequest
   }
-  send(data:Partial< Record<string,any>>={}) {
+  send(data: Partial<Record<string, any>> = {}) {
     let extraData = getExtraData();
     const log = { ...data, ...extraData }
-      console.log(log);
+    console.log(log);
   }
 }
 export default new SendTracker('')
