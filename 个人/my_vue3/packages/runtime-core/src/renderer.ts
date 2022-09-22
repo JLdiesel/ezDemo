@@ -1,6 +1,8 @@
+import { reactive, ReactiveEffect } from '@vue/reactivity';
 import { isString, ShapeFlags } from '@vue/shared';
+import { queueJob } from './scheduler';
 import { getSequence } from './sequence';
-import { createVnode, Fragment, isSameVnode, Text } from './vnode';
+import { createVnode, Fragment, isSameVnode, Text, Vnode } from './vnode';
 
 export function createRenderer(options) {
   const {
@@ -242,6 +244,49 @@ export function createRenderer(options) {
       patchElement(n1, n2);
     }
   };
+  const mountComponent = (vnode: Vnode, container, anchor) => {
+    const { data = () => ({}), render } = vnode.type;
+    const state = reactive(data()); //pinia 源码就是reactive({}) 作为组件的状态
+    //组件实例
+    const instance = {
+      state,
+      //vue2源码中组件的虚拟节点叫$vnode 渲染的内容叫_vnode
+      vnode, //Vue3中的虚拟节点
+      subTree: null, //渲染的组件内容
+      isMounted: false,
+      update: null
+    };
+    const componentUpdateFn = () => {
+      if (!instance.isMounted) {
+        //初始化
+        const subTree = render.call(state); //暂时作为this
+        patch(null, subTree, container, anchor); //创造了subTree的真实节点
+        instance.subTree = subTree;
+        instance.isMounted = true;
+      } else {
+        //组件内部更新
+        const subTree = render.call(state);
+        patch(instance.subTree, subTree, container, anchor);
+        instance.subTree = subTree;
+      }
+    };
+    const effect = new ReactiveEffect(componentUpdateFn, () => {
+      queueJob(instance.update);
+    });
+    //绑定到实例上
+    const update = (instance.update = effect.run.bind(effect)); //调用effect.run可以让组件强制渲染
+    update();
+  };
+  const processComponent = (n1, n2, container, anchor) => {
+    //统一处理 区分
+    if (n1 === null) {
+      mountComponent(n2, container, anchor);
+    } else {
+      //组件更新靠的是props
+      // patchComponent()
+    }
+  };
+
   /* 
   如果前后完全没关系，删除老的添加新的
   老的和新的一样 复用。属性可能不一样，再比对、更新属性
@@ -270,6 +315,8 @@ export function createRenderer(options) {
       default:
         if (shapeFlag & ShapeFlags.ELEMENT) {
           processElement(n1, n2, container, anchor);
+        } else if (shapeFlag & ShapeFlags.COMPONENT) {
+          processComponent(n1, n2, container, anchor);
         }
         break;
     }

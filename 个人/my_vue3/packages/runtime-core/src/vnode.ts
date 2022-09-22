@@ -42,3 +42,4 @@ export function createVnode(
 
   return vnode;
 }
+export type Vnode=ReturnType<typeof createVnode>
