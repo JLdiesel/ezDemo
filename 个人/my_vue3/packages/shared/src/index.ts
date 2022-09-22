@@ -1,4 +1,3 @@
-
 export const isObject = (value: any) => {
   return typeof value === 'object' && value !== null;
 };
@@ -32,5 +31,5 @@ export const enum ShapeFlags {
   COMPONENT = ShapeFlags.STATEFUL_COMPONENT | ShapeFlags.FUNCTION_COMPONENT
 }
 export function isVnode(value) {
-  return !!(value?.__v_isVnode)
+  return !!value?.__v_isVnode;
 }

@@ -8,7 +8,7 @@ import {
 } from './effect';
 import { isReactive, reactive } from './reactive';
 function toReactive(value: any) {
-  return isObject(value) ?  reactive(value):value;
+  return isObject(value) ? reactive(value) : value;
 }
 class RefImplement<T> {
   _value: any;
