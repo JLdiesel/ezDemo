@@ -16,7 +16,7 @@
       </div>
     </div>
     <script>
-      /*  function jsError() {
+        function jsError() {
         window.somVar.error = 'error';
       }
       function promiseError() {
@@ -27,7 +27,7 @@
       }
       function sendSuccess(params) {
           const xhr=new XMLHttpRequest;
-          xhr.open('GET','/success',true);
+          xhr.open('GET','/success?type=123',true);
           xhr.responseType='json'
           xhr.onload=function(){
             console.log(xhr.response);
@@ -44,12 +44,12 @@
           xhr.onerror=function(error){
             console.log(error);
           }
-          xhr.send()
+          xhr.send({})
       }
       document.addEventListener('DOMContentLoaded',()=>{
         const start=Date.now()
         while((Date.now()-start) <1000){}
-      }) */
+      }) 
       setTimeout(() => {
         const content = document.getElementById('content');
         let h1 = document.createElement('h1');

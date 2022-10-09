@@ -1,7 +1,19 @@
 import getLastEvent from '../utils/getLastEvent';
 import getSelector from '../utils/getSelector';
 import tracker from '../utils/tracker'
+import ErrorStackParser from "error-stack-parser";
+import stringify from "json-stringify-safe";
+
 export default function injectJsError() {
+  window.onerror = function(event: Event | string, source?: string, lineno?: number, colno?: number, error?: Error)  {
+      console.log(event);
+      console.log(source);
+      console.log(lineno);
+      console.log(colno);
+      console.log(error);
+      
+  }
+
   window.addEventListener('error', function (event) {
     //错误事件对象
     console.log(event)
@@ -15,7 +27,7 @@ export default function injectJsError() {
         errorType: 'resourceError', //JS执行错误
         url: '', //哪个路径报错了
         message: "资源加载错误", //报错信息
-        filename: event.target.src, //哪个文件报错了
+        filename: event.target.src||event.target.href, //哪个文件报错了
         tagName: event.target.tagName,
       };
     } else {
@@ -42,11 +54,14 @@ export default function injectJsError() {
 
   }, true);
   window.addEventListener('unhandledrejection', (event) => {
+    console.log('promise')
     //错误事件对象
     const lastEvent = getLastEvent(); //最后一个交互事件
     const {
       reason
     } = event;
+    console.log(reason);
+    
     let message, stack = '', line = 0, column = 0, filename;
     if (typeof reason === 'string') {
       message = reason
@@ -55,6 +70,9 @@ export default function injectJsError() {
         message = reason.message
 
       }
+      console.log(123);
+      
+      console.log(ErrorStackParser.parse(reason))
       if (reason.stack) {
         let matchResult = reason.stack.match(/at\s+(.+):(\d+):(\d+)/)
         filename = matchResult[1];

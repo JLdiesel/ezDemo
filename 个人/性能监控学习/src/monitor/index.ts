@@ -4,5 +4,5 @@ import blankScreen from './lib/blankScreen';
 import timing from './lib/timing';
 injectJsError();
 injectXhrError();
-blankScreen();
-timing();
+// blankScreen();
+// timing();
