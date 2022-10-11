@@ -1,17 +1,63 @@
 import tracker from '../utils/tracker';
 
 export default function () {
-  const XMLHttpRequest = window.XMLHttpRequest;
-  const oldOpen = XMLHttpRequest.prototype.open;
-  XMLHttpRequest.prototype.open = function (method, url, async: boolean = false) {
-    console.log('open', this);
+  const oldFetch = window.fetch;
+  window.fetch = function (url: RequestInfo | URL, options?: RequestInit | undefined) {
+    const timestr: number = Date.now();
+    const reportData = {
+      type: 'fetch',
+      method: options?.method,
+      duration: 0,
+      url,
+      timestr,
+      req: options?.body ? JSON.stringify(options.body) : '',
+      res: '',
+      callUrl: '',
+      status: '',
+    };
+    // if (!(url as string).match(/g/)) {
+    //   this.logData = { method, url, async };
+    // }
+    return oldFetch
+      .apply(this, [url, options])
+      .then(response => {
+        reportData.duration = Date.now() - reportData.timestr;
+        reportData.callUrl = window.location.href;
+        reportData.res = JSON.stringify(response);
+        reportData.status = response.status + '-' + response.statusText;
+        /*  const isFilterUrl: number = this._options.ignoreUrl.filter(
+          (igUrl: string) => igUrl.indexOf(window.location.pathname) > -1,
+        )?.length;
+        !!isFilterUrl && myEmitter.myEmit('resource', reportData); */
+        console.log(reportData);
 
-    if (!(url as string).match(/g/)) {
-      this.logData = { method, url, async };
-    }
-    return oldOpen.apply(this, [method, url, async]);
+        return Promise.resolve(response);
+      })
+      .catch(e => {
+        console.log(e);
+        reportData.duration = Date.now() - reportData.timestr;
+        reportData.callUrl = window.location.href;
+        reportData.res = JSON.stringify(e);
+        reportData.status = e.status + '-' + e.statusText;
+
+        console.log(reportData);
+        // const errorType = ErrorType.httpRequestError;
+        // const reqErrorRes: IHttpReqErrorRes = {
+        //   requestMethod: this._method,
+        //   requestUrl: this._url,
+        //   requestData: this._data,
+        //   errorMsg: e.message,
+        //   errorType
+        // };
+
+        // if (!this._isUrlInIgnoreList) {
+        //   console.log(`${errorType}: ${this._url}`,)
+
+        // }
+        throw new Error(e);
+      });
   };
-  const oldSend = XMLHttpRequest.prototype.send;
+  /*  const oldSend = XMLHttpRequest.prototype.send;
   XMLHttpRequest.prototype.send = function (body) {
     console.log('send', this);
 
@@ -65,5 +111,5 @@ export default function () {
       // this.upload.addEventListener('progress', handler('progress'), false)
     }
     return oldSend.apply(this, [body]);
-  };
+  }; */
 }
