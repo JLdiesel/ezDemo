@@ -5,9 +5,9 @@ export enum ReactiveFlags {
   IS_REACTIVE = '__v_isReactive'
 }
 export type keyType = string | symbol;
-export function mutableHandler<
-  T extends { [key: keyType]: any }
->(): ProxyHandler<T> {
+export function mutableHandler<T extends { [key: keyType]: any }>(
+  options: { isShallow?: boolean } = {}
+): ProxyHandler<T> {
   return {
     /**
      * @param target 原对象，被代理对象
@@ -20,6 +20,9 @@ export function mutableHandler<
       //console.log(key); //用Reflect会把this改成代理对象 取target.age的时候会先读取target.age,再读取target.name
       track(target, 'get', key);
       const res = Reflect.get(target, key, receiver);
+      if (options.isShallow) {
+        return res;
+      }
       if (isObject(res)) {
         return reactive(res);
       }

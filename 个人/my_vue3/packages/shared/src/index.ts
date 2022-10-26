@@ -16,6 +16,9 @@ export const isNumber = (value: any) => {
 export const isBoolean = (value: any) => {
   return typeof value === 'boolean';
 };
+const hasOwnProperty = Object.prototype.hasOwnProperty;
+
+export const hasOwn = (value, key) => hasOwnProperty.call(value, key);
 // 位运算& | 适合权限的组合 let user=增加| 删除  user&增加>0 user&修改=0
 export const enum ShapeFlags {
   ELEMENT = 1,

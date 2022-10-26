@@ -1,5 +1,6 @@
 import { reactive, ReactiveEffect } from '@vue/reactivity';
 import { isString, ShapeFlags } from '@vue/shared';
+import { initProps } from './componentsProps';
 import { queueJob } from './scheduler';
 import { getSequence } from './sequence';
 import { createVnode, Fragment, isSameVnode, Text, Vnode } from './vnode';
@@ -245,7 +246,7 @@ export function createRenderer(options) {
     }
   };
   const mountComponent = (vnode: Vnode, container, anchor) => {
-    const { data = () => ({}), render } = vnode.type;
+    const { data = () => ({}), render, props: propsOptions = {} } = vnode.type;
     const state = reactive(data()); //pinia 源码就是reactive({}) 作为组件的状态
     //组件实例
     const instance = {
@@ -254,8 +255,11 @@ export function createRenderer(options) {
       vnode, //Vue3中的虚拟节点
       subTree: null, //渲染的组件内容
       isMounted: false,
-      update: null
+      update: null,
+      props: {},
+      attrs: {}
     };
+    initProps(instance, vnode.props);
     const componentUpdateFn = () => {
       if (!instance.isMounted) {
         //初始化
