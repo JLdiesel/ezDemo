@@ -15,9 +15,10 @@ function createInvoker(cb: eventFn) {
   return invoker
 }
 export function patchEvent(el: any, eventName: string, nextValue: eventFn) {
-  const invokers = el._vei || (el.vei = {})
+  const invokers = el._vei || (el._vei = {})
   const exits = invokers[eventName]
   if (exits && nextValue) {
+    console.log('进入了')
     exits.value = nextValue
     exits.attached = performance.now()
   } else {
