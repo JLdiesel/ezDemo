@@ -1,7 +1,7 @@
 import { reactive, ReactiveEffect } from '@vue/reactivity';
 import { hasOwn, isNumber, isString, ShapeFlags } from '@vue/shared';
 import { createComponentsInstance, setupComponent } from './components';
-import { initProps } from './componentsProps';
+import { initProps, updateProps } from './componentsProps';
 import { queueJob } from './scheduler';
 import { getSequence } from './sequence';
 import { createVnode, Fragment, isSameVnode, Text, Vnode } from './vnode';
@@ -256,6 +256,7 @@ export function createRenderer(options) {
     setupRenderEffect(instance, container, anchor)
   };
   const setupRenderEffect = (instance, container, anchor) => {
+    const { render } = instance.vnode.type;
     const componentUpdateFn = () => {
       if (!instance.isMounted) {
         //初始化
@@ -277,13 +278,20 @@ export function createRenderer(options) {
     const update = (instance.update = effect.run.bind(effect)); //调用effect.run可以让组件强制渲染
     update();
   }
+  const updateComponent = (n1, n2) => {
+    // instance.props 是响应式的，而且可以更改 
+    const instance = n2.component = n1.component //对于元素 复用dom节点 对于组件 复用实例
+    const { props: prevProps } = n1
+    const { props: nextProps } = n2
+    updateProps(instance, prevProps, nextProps) // 属性更新
+  }
   const processComponent = (n1, n2, container, anchor) => {
     //统一处理 区分函数式还是普通setup
     if (n1 === null) {
       mountComponent(n2, container, anchor);
     } else {
       //组件更新靠的是props
-      // patchComponent()
+      updateComponent(n1, n2)
     }
   };
 
@@ -322,12 +330,13 @@ export function createRenderer(options) {
     }
   };
   const render = (vnode, container) => {
+
     //如果当前vnode=null
     if (vnode === null) {
       //卸载逻辑
     } else {
       //初始化和更新
-      patch(container._vnode || null, vnode, container);
+      patch(container?._vnode || null, vnode, container);
     }
     container._vnode = vnode;
   };

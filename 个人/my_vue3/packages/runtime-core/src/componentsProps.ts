@@ -20,3 +20,35 @@ export function initProps(instance, rawProps) {
   instance.props = shallowReactive(props);
   instance.attrs = attrs;
 }
+const hasPropsChange = (prevProps = {}, nextProps = {}) => {
+  const nextKeys = Object.keys(nextProps)
+  //  属性的个数是否发生变化
+  if (nextKeys.length !== Object.keys(prevProps).length) {
+    return true
+  }
+  //  值是否变化
+  for (let i = 0; i < nextKeys.length; i++) {
+    const key = nextKeys[i]
+    if (nextProps[key] !== prevProps[key]) {
+      return true
+    }
+  }
+  return false
+}
+export function updateProps(instance, prevProps, nextProps) {
+  // 看一下属性有没有变化
+
+  if (hasPropsChange(prevProps, nextProps)) {
+    for (const key in nextProps) {
+      // 属性改了触发响应式 重新渲染
+      instance.props[key] = nextProps[key]
+    }
+    for (const key in instance.props) {
+      if (!hasOwn(nextProps, key)) {
+        delete instance.props[key]
+      }
+    }
+  }
+
+
+}
