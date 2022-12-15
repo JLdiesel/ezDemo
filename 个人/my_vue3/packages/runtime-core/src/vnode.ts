@@ -17,8 +17,8 @@ export function createVnode(
   let shapeFlag = isString(type)
     ? ShapeFlags.ELEMENT
     : isObject(type)
-    ? ShapeFlags.STATEFUL_COMPONENT
-    : 0;
+      ? ShapeFlags.STATEFUL_COMPONENT
+      : 0;
   // 虚拟dom就是一个对象 diff算法，真实dom的属性比较多
   const vnode = {
     type,
@@ -27,7 +27,8 @@ export function createVnode(
     key: props?.key,
     el: null, //真实dom
     __v_isVnode: true,
-    shapeFlag
+    shapeFlag,
+    component: null
   };
   if (children) {
     let type = 0;
@@ -42,4 +43,4 @@ export function createVnode(
 
   return vnode;
 }
-export type Vnode=ReturnType<typeof createVnode>
+export type Vnode = ReturnType<typeof createVnode>

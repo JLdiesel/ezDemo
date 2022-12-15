@@ -1,5 +1,6 @@
 import { reactive, ReactiveEffect } from '@vue/reactivity';
-import { isString, ShapeFlags } from '@vue/shared';
+import { hasOwn, isNumber, isString, ShapeFlags } from '@vue/shared';
+import { createComponentsInstance, setupComponent } from './components';
 import { initProps } from './componentsProps';
 import { queueJob } from './scheduler';
 import { getSequence } from './sequence';
@@ -23,7 +24,7 @@ export function createRenderer(options) {
     patchProp: hostPatchProp
   } = options;
   const normalize = (child, i) => {
-    if (isString(child[i])) {
+    if (isString(child[i]) || isNumber(child[i])) {
       child[i] = createVnode(Text, null, child[i]);
     }
     return child[i];
@@ -245,31 +246,26 @@ export function createRenderer(options) {
       patchElement(n1, n2);
     }
   };
+
   const mountComponent = (vnode: Vnode, container, anchor) => {
-    const { data = () => ({}), render, props: propsOptions = {} } = vnode.type;
-    const state = reactive(data()); //pinia 源码就是reactive({}) 作为组件的状态
-    //组件实例
-    const instance = {
-      state,
-      //vue2源码中组件的虚拟节点叫$vnode 渲染的内容叫_vnode
-      vnode, //Vue3中的虚拟节点
-      subTree: null, //渲染的组件内容
-      isMounted: false,
-      update: null,
-      props: {},
-      attrs: {}
-    };
-    initProps(instance, vnode.props);
+    // 1 创建组件实例
+    const instance = vnode.component = createComponentsInstance(vnode)
+    // 2 给组件赋值
+    setupComponent(instance)
+    // 3 创建一个effect
+    setupRenderEffect(instance, container, anchor)
+  };
+  const setupRenderEffect = (instance, container, anchor) => {
     const componentUpdateFn = () => {
       if (!instance.isMounted) {
         //初始化
-        const subTree = render.call(state); //暂时作为this
+        const subTree = render.call(instance.proxy); //暂时作为this
         patch(null, subTree, container, anchor); //创造了subTree的真实节点
         instance.subTree = subTree;
         instance.isMounted = true;
       } else {
         //组件内部更新
-        const subTree = render.call(state);
+        const subTree = render.call(instance.proxy);
         patch(instance.subTree, subTree, container, anchor);
         instance.subTree = subTree;
       }
@@ -280,9 +276,9 @@ export function createRenderer(options) {
     //绑定到实例上
     const update = (instance.update = effect.run.bind(effect)); //调用effect.run可以让组件强制渲染
     update();
-  };
+  }
   const processComponent = (n1, n2, container, anchor) => {
-    //统一处理 区分
+    //统一处理 区分函数式还是普通setup
     if (n1 === null) {
       mountComponent(n2, container, anchor);
     } else {
