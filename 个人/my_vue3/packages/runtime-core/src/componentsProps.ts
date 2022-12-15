@@ -8,6 +8,7 @@ export function initProps(instance, rawProps) {
   if (rawProps) {
     for (const key in rawProps) {
       const value = rawProps[key];
+      // 看看用户传的options API中有没有定义个props。如果定义了，就是props，否则就是attrs
       if (hasOwn(option, key)) {
         props[key] = value;
       } else {
