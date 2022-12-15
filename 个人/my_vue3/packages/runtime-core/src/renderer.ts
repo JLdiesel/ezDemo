@@ -1,7 +1,7 @@
 import { reactive, ReactiveEffect } from '@vue/reactivity';
 import { hasOwn, isNumber, isString, ShapeFlags } from '@vue/shared';
 import { createComponentsInstance, setupComponent } from './components';
-import { initProps, updateProps } from './componentsProps';
+import { hasPropsChange, initProps, updateProps } from './componentsProps';
 import { queueJob } from './scheduler';
 import { getSequence } from './sequence';
 import { createVnode, Fragment, isSameVnode, Text, Vnode } from './vnode';
@@ -255,6 +255,11 @@ export function createRenderer(options) {
     // 3 创建一个effect
     setupRenderEffect(instance, container, anchor)
   };
+  const updateComponentPreRender = (instance, next) => {
+    instance.next = null;
+    instance.vnode = next
+    updateProps(instance.props, next.props)
+  }
   const setupRenderEffect = (instance, container, anchor) => {
     const { render } = instance.vnode.type;
     const componentUpdateFn = () => {
@@ -265,6 +270,11 @@ export function createRenderer(options) {
         instance.subTree = subTree;
         instance.isMounted = true;
       } else {
+        const { next } = instance
+        if (next) {
+          //更新前需要拿到最新的属性更新
+          updateComponentPreRender(instance, next)
+        }
         //组件内部更新
         const subTree = render.call(instance.proxy);
         patch(instance.subTree, subTree, container, anchor);
@@ -278,12 +288,24 @@ export function createRenderer(options) {
     const update = (instance.update = effect.run.bind(effect)); //调用effect.run可以让组件强制渲染
     update();
   }
+  const shouldUpdateComponent = (n1, n2) => {
+    const { props: prevProps, children: prevChildren } = n1
+    const { props: nextProps, children: nextChildren } = n2
+    if (nextProps === prevProps) return false;
+    if (prevProps || nextChildren) {
+      return true
+    }
+    return hasPropsChange(prevProps, nextProps)
+    // updateProps(instance, prevProps, nextProps) // 属性更新
+  }
   const updateComponent = (n1, n2) => {
     // instance.props 是响应式的，而且可以更改 
     const instance = n2.component = n1.component //对于元素 复用dom节点 对于组件 复用实例
-    const { props: prevProps } = n1
-    const { props: nextProps } = n2
-    updateProps(instance, prevProps, nextProps) // 属性更新
+
+    if (shouldUpdateComponent(n1, n2)) {
+      instance.next = n2; // 将新的虚拟节点放到next属性上
+      instance.update() //统一调用update方法更新
+    }
   }
   const processComponent = (n1, n2, container, anchor) => {
     //统一处理 区分函数式还是普通setup
