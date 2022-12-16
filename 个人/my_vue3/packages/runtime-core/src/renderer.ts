@@ -292,7 +292,7 @@ export function createRenderer(options) {
     const { props: prevProps, children: prevChildren } = n1
     const { props: nextProps, children: nextChildren } = n2
     if (nextProps === prevProps) return false;
-    if (prevProps || nextChildren) {
+    if (prevChildren || nextChildren) {
       return true
     }
     return hasPropsChange(prevProps, nextProps)
