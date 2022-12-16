@@ -1,4 +1,4 @@
-import { isObject } from '@vue/shared';
+import { isObject, isRef } from '@vue/shared';
 import {
   effectFn,
   track,
@@ -31,4 +31,25 @@ class RefImplement<T> {
 }
 export function ref(value: any) {
   return new RefImplement(value);
+}
+function unref(ref) {
+  return isRef(ref) ? ref.value : ref;
+}
+const shallowUnwrapHandlers = {
+  get: (target, key, receiver) => unref(Reflect.get(target, key, receiver)),
+  set: (target, key, value, receiver) => {
+    const oldValue = target[key];
+    if (isRef(oldValue) && !isRef(value)) {
+      oldValue.value = value;
+      return true;
+    }
+    else {
+      return Reflect.set(target, key, value, receiver);
+    }
+  }
+};
+export function proxyRefs(objectWithRefs) {
+  return isReactive(objectWithRefs)
+    ? objectWithRefs
+    : new Proxy(objectWithRefs, shallowUnwrapHandlers);
 }

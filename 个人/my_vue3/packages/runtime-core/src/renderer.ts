@@ -236,6 +236,7 @@ export function createRenderer(options) {
     const oldProps = n1.props || {};
     const newProps = n2.props || {};
     patchProps(oldProps, newProps, el);
+    n2.children = n2.children.map((item, index, target) => normalize(target, index))
     patchChildren(n1, n2, el);
   };
   const processElement = (n1, n2, container, anchor) => {
@@ -248,6 +249,7 @@ export function createRenderer(options) {
   };
 
   const mountComponent = (vnode: Vnode, container, anchor) => {
+    debugger;
     // 1 创建组件实例
     const instance = vnode.component = createComponentsInstance(vnode)
     // 2 给组件赋值
@@ -261,7 +263,7 @@ export function createRenderer(options) {
     updateProps(instance.props, next.props)
   }
   const setupRenderEffect = (instance, container, anchor) => {
-    const { render } = instance.vnode.type;
+    const { render } = instance;
     const componentUpdateFn = () => {
       if (!instance.isMounted) {
         //初始化
@@ -337,6 +339,8 @@ export function createRenderer(options) {
 
     switch (type) {
       case Text:
+        console.log(n1, n2);
+
         processText(n1, n2, container);
         break;
       case Fragment:
