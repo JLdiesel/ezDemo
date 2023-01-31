@@ -34,6 +34,8 @@ export function createVnode(
     let type = 0;
     if (isArray(children)) {
       type = ShapeFlags.ARRAY_CHILDREN;
+    } else if (isObject(children)) {
+      type = ShapeFlags.SLOTS_CHILDREN; // 插槽组件
     } else {
       document.createTextNode(String(children));
       type = ShapeFlags.TEXT_CHILDREN;
